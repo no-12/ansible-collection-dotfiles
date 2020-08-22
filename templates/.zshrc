@@ -11,7 +11,7 @@ export ZSH="{{ ansible_env.HOME }}/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 HIST_STAMPS="yyyy-mm-dd"
 
-plugins=(docker docker-compose extract git gradle history sudo vagrant)
+plugins=(command-not-found docker docker-compose extract git gradle history sudo vagrant)
 
 source "$ZSH/oh-my-zsh.sh"
 
