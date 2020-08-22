@@ -1,0 +1,28 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  ansible-lint .
+platforms:
+  - name: archlinux
+    hostname: archlinux
+    image: archlinux_molecule:latest
+    dockerfile: Dockerfile.archlinux.j2
+  - name: debian
+    hostname: debian
+    image: debian_molecule:latest
+    dockerfile: Dockerfile.debian.j2
+provisioner:
+  name: ansible
+  options:
+    v: True
+  inventory:
+    group_vars:
+      all:
+        ansible_python_interpreter: /usr/bin/python
+        ansible_user: ansible
+verifier:
+  name: ansible

@@ -1,0 +1,10 @@
+FROM archlinux:latest
+
+ENV ANSIBLE_USER=ansible
+
+RUN pacman -Syu --noconfirm python sudo && \
+    groupadd -r ${ANSIBLE_USER} && \
+    useradd -m -g ${ANSIBLE_USER} ${ANSIBLE_USER} && \
+    echo "${ANSIBLE_USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+USER $ANSIBLE_USER
