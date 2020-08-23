@@ -15,6 +15,8 @@ plugins=(command-not-found docker docker-compose extract git gradle history sudo
 
 source "$ZSH/oh-my-zsh.sh"
 
+export TERM=xterm-color
+
 ranger() {
   if [ -z "$RANGER_LEVEL" ]; then
     /usr/bin/ranger "$@"
