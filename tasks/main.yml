@@ -13,27 +13,28 @@
   user:
     name: "{{ ansible_user }}"
     shell: /usr/bin/zsh
+  register: zsh_user
 
 - name: Ensure oh my zsh is present
   shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
   args:
-    creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
+    creates: "{{ zsh_user.home }}/.oh-my-zsh"
 
 - name: Ensure powerlevel10k theme is present
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
-    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    dest: "{{ zsh_user.home }}/.oh-my-zsh/custom/themes/powerlevel10k"
     depth: 1
     version: "{{ zsh_powerlevel10k_version }}"
 
 - name: Ensure .zshrc exists
   template:
     src: .zshrc
-    dest: "{{ ansible_env.HOME }}/.zshrc"
+    dest: "{{ zsh_user.home }}/.zshrc"
     mode: 0644
 
 - name: Ensure .p10k.zsh exists
   copy:
     src: .p10k.zsh
-    dest: "{{ ansible_env.HOME }}/.p10k.zsh"
+    dest: "{{ zsh_user.home }}/.p10k.zsh"
     mode: 0644
