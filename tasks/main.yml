@@ -27,14 +27,11 @@
     depth: 1
     version: "{{ zsh_powerlevel10k_version }}"
 
-- name: Ensure .zshrc exists
-  template:
-    src: .zshrc
-    dest: "{{ zsh_user.home }}/.zshrc"
-    mode: 0644
-
-- name: Ensure .p10k.zsh exists
+- name: Ensure dot files exists
   copy:
-    src: .p10k.zsh
-    dest: "{{ zsh_user.home }}/.p10k.zsh"
+    src: "{{ item }}"
+    dest: "{{ zsh_user.home }}/{{ item }}"
     mode: 0644
+  with_items:
+    - .zshrc
+    - .p10k.zsh
