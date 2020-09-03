@@ -5,7 +5,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-DIRSTACKSIZE=128
+DIRSTACKSIZE=16
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=50000
 TERM=xterm-256color
@@ -97,6 +97,18 @@ ranger() {
   fi
 }
 
+cdParent() {
+  pushd ..
+  zle accept-line
+}
+
+cdRecent() {
+  if [[ ${#$(dirs)} -gt 1 ]]; then
+    pushd -
+    zle accept-line
+  fi
+}
+
 cdUndo() {
   if [[ ${#$(dirs)} -gt 1 ]]; then
     popd
@@ -104,12 +116,8 @@ cdUndo() {
   fi
 }
 
-cdParent() {
-  pushd ..
-  zle accept-line
-}
-
 zle -N cdParent
+zle -N cdRecent
 zle -N cdUndo
 
 zle -N down-line-or-beginning-search
@@ -118,6 +126,7 @@ zle -N up-line-or-beginning-search
 ### key bindings
 
 typeset -g -A key
+key[Alt-Down]='^[[1;3B'
 key[Alt-Left]='^[[1;3D'
 key[Alt-Up]='^[[1;3A'
 key[Backspace]="${terminfo[kbs]}"
@@ -150,6 +159,7 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
   zle -N zle-line-finish
 fi
 
+[[ -n "${key[Alt-Down]}" ]] && bindkey -- "${key[Alt-Down]}" cdRecent
 [[ -n "${key[Alt-Left]}" ]] && bindkey -- "${key[Alt-Left]}" cdUndo
 [[ -n "${key[Alt-Up]}" ]] && bindkey -- "${key[Alt-Up]}" cdParent
 [[ -n "${key[Backspace]}" ]] && bindkey -- "${key[Backspace]}" backward-delete-char
