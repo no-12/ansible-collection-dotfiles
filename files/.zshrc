@@ -98,19 +98,21 @@ ranger() {
 }
 
 cdParent() {
-  pushd ..
-  zle accept-line
+  if [[ -z $BUFFER ]]; then
+    pushd ..
+    zle accept-line
+  fi
 }
 
 cdRecent() {
-  if [[ ${#$(dirs)} -gt 1 ]]; then
+  if [[ -z $BUFFER ]] && [[ ${#$(dirs)} -gt 1 ]]; then
     pushd -
     zle accept-line
   fi
 }
 
 cdUndo() {
-  if [[ ${#$(dirs)} -gt 1 ]]; then
+  if [[ -z $BUFFER ]] && [[ ${#$(dirs)} -gt 1 ]]; then
     popd
     zle accept-line
   fi
