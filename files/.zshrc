@@ -173,14 +173,23 @@ fpath=("${HOME}/.zsh/gradle-completion" $fpath)
 
 unalias run-help
 
+alias chmod="chmod --changes"
+alias chown="chown --changes"
+alias cp='cp --verbose'
 alias d='dirs -v'
 alias gradle=gradle-or-gradlew
 alias h='history'
 alias help='run-help'
 alias history='fc -Dil'
-alias l='ls -alh'
+alias l='ls --all --human-readable -l'
+alias ln='ln --verbose'
 alias ls='ls --color=auto'
+alias md='mkdir --parents --verbose'
+alias mv='mv --verbose'
+alias rd='rmdir --verbose'
+alias rm='rm --verbose'
 alias vi='vim'
+
 
 source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
