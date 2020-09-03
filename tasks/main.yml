@@ -15,17 +15,25 @@
     shell: /usr/bin/zsh
   register: zsh_user
 
-- name: Ensure oh my zsh is present
-  shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
-  args:
-    creates: "{{ zsh_user.home }}/.oh-my-zsh"
+- name: Ensure .zsh directory is present
+  file:
+    path: "{{ zsh_user.home }}/.zsh"
+    state: directory
+    mode: 0755
 
-- name: Ensure powerlevel10k theme is present
+- name: Ensure zsh extensions are present
   git:
-    repo: https://github.com/romkatv/powerlevel10k.git
-    dest: "{{ zsh_user.home }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    repo: "{{ item.repo }}"
+    dest: "{{ zsh_user.home }}/.zsh/{{ item.dest }}"
     depth: 1
-    version: "{{ zsh_powerlevel10k_version }}"
+    version: "{{ item.version }}"
+  with_items:
+    - repo: https://github.com/gradle/gradle-completion.git
+      dest: gradle-completion
+      version: "{{ zsh_gradle_completion_version }}"
+    - repo: https://github.com/romkatv/powerlevel10k.git
+      dest: powerlevel10k
+      version: "{{ zsh_powerlevel10k_version }}"
 
 - name: Ensure dot files exists
   copy:
