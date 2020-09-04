@@ -59,7 +59,6 @@ setopt \
   always_to_end \
   auto_menu \
   auto_pushd \
-  complete_aliases \
   complete_in_word \
   extended_glob \
   extended_history \
@@ -78,6 +77,14 @@ setopt \
 ################################
 # Functions
 ################################
+
+function git_main_branch() {
+  if [[ -n "$(git branch --list main)" ]]; then
+    echo main
+  else
+    echo master
+  fi
+}
 
 # Looks for a gradlew file in the current working directory
 # or any of its parent directories, and executes it if found.
@@ -215,10 +222,11 @@ fpath=("${HOME}/.zsh/gradle-completion" $fpath)
 
 unalias run-help
 
-alias chmod="chmod --changes"
-alias chown="chown --changes"
+alias chmod='chmod --changes'
+alias chown='chown --changes'
 alias cp='cp --verbose'
 alias d='dirs -v'
+alias g='git'
 alias gradle=gradle-or-gradlew
 alias grep='grep --color=auto'
 alias h='history'
