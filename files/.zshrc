@@ -186,25 +186,25 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
   zle -N zle-line-finish
 fi
 
-[[ -n "${key[Alt-Down]}" ]] && bindkey -- "${key[Alt-Down]}" cdRecent
-[[ -n "${key[Alt-Left]}" ]] && bindkey -- "${key[Alt-Left]}" cdUndo
-[[ -n "${key[Alt-Up]}" ]] && bindkey -- "${key[Alt-Up]}" cdParent
-[[ -n "${key[Backspace]}" ]] && bindkey -- "${key[Backspace]}" backward-delete-char
-[[ -n "${key[Control-Backspace]}" ]] && bindkey -- "${key[Backspace]}" backward-delete-word
-[[ -n "${key[Control-Delete]}" ]] && bindkey -- "${key[Control-Delete]}" kill-word
-[[ -n "${key[Control-Left]}" ]] && bindkey -- "${key[Control-Left]}" backward-word
-[[ -n "${key[Control-Right]}" ]] && bindkey -- "${key[Control-Right]}" forward-word
-[[ -n "${key[Delete]}" ]] && bindkey -- "${key[Delete]}" delete-char
-[[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
-[[ -n "${key[End]}" ]] && bindkey -- "${key[End]}" end-of-line
-[[ -n "${key[Home]}" ]] && bindkey -- "${key[Home]}" beginning-of-line
-[[ -n "${key[Insert]}" ]] && bindkey -- "${key[Insert]}" overwrite-mode
-[[ -n "${key[Left]}" ]] && bindkey -- "${key[Left]}" backward-char
-[[ -n "${key[PageDown]}" ]] && bindkey -- "${key[PageDown]}" down-line-or-history
-[[ -n "${key[PageUp]}" ]] && bindkey -- "${key[PageUp]}" up-line-or-history
-[[ -n "${key[Right]}" ]] && bindkey -- "${key[Right]}" forward-char
-[[ -n "${key[Shift-Tab]}" ]] && bindkey -- "${key[Shift-Tab]}" reverse-menu-complete
-[[ -n "${key[Up]}" ]] && bindkey -- "${key[Up]}" up-line-or-beginning-search
+ bindkey "${key[Alt-Down]}" cdRecent
+ bindkey "${key[Alt-Left]}" cdUndo
+ bindkey "${key[Alt-Up]}" cdParent
+ bindkey "${key[Backspace]}" backward-delete-char
+ bindkey "${key[Backspace]}" backward-delete-word
+ bindkey "${key[Control-Delete]}" kill-word
+ bindkey "${key[Control-Left]}" backward-word
+ bindkey "${key[Control-Right]}" forward-word
+ bindkey "${key[Delete]}" delete-char
+ bindkey "${key[Down]}" down-line-or-beginning-search
+ bindkey "${key[End]}" end-of-line
+ bindkey "${key[Home]}" beginning-of-line
+ bindkey "${key[Insert]}" overwrite-mode
+ bindkey "${key[Left]}" backward-char
+ bindkey "${key[PageDown]}" down-line-or-history
+ bindkey "${key[PageUp]}" up-line-or-history
+ bindkey "${key[Right]}" forward-char
+ bindkey "${key[Shift-Tab]}" reverse-menu-complete
+ bindkey "${key[Up]}" up-line-or-beginning-search
 
 fpath=("${HOME}/.zsh/gradle-completion" $fpath)
 
