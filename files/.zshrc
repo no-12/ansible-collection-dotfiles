@@ -68,7 +68,7 @@ setopt \
 # Looks for a gradlew file in the current working directory
 # or any of its parent directories, and executes it if found.
 # Otherwise it will call gradle directly.
-function gradle-or-gradlew() {
+gradle-or-gradlew() {
   # find project root
   # taken from https://github.com/gradle/gradle-completion
   local dir="$PWD" project_root="$PWD"
@@ -116,6 +116,14 @@ cdUndo() {
     popd
     zle accept-line
   fi
+}
+
+precmd() {
+  print -Pn "\e]0;[%n@%M]: %~\a"
+}
+
+preexec() {
+  print -Pn "\e]0;[%n@%M]: %~ - $1\a"
 }
 
 zle -N cdParent
