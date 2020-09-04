@@ -79,14 +79,6 @@ setopt \
 # Functions
 ################################
 
-function git_main_branch() {
-  if [[ -n "$(git branch --list main)" ]]; then
-    echo main
-  else
-    echo master
-  fi
-}
-
 # Looks for a gradlew file in the current working directory
 # or any of its parent directories, and executes it if found.
 # Otherwise it will call gradle directly.
