@@ -5,12 +5,16 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+################################
+# Environment variables
+################################
+
 DIRSTACKSIZE=16
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=50000
 TERM=xterm-256color
 
-# Colors.
+# Colors
 black='\e[0;30m'
 BLACK='\e[1;30m'
 red='\e[0;31m'
@@ -28,6 +32,11 @@ CYAN='\e[1;36m'
 white='\e[0;37m'
 WHITE='\e[1;37m'
 NC='\e[0m'
+
+
+################################
+# zsh config
+################################
 
 autoload -Uz \
   compinit \
@@ -64,6 +73,11 @@ setopt \
   pushd_silent \
   pushd_to_home \
   share_history \
+
+
+################################
+# Functions
+################################
 
 # Looks for a gradlew file in the current working directory
 # or any of its parent directories, and executes it if found.
@@ -133,7 +147,10 @@ zle -N cdUndo
 zle -N down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 
-### key bindings
+
+################################
+# Key bindings
+################################
 
 typeset -g -A key
 key[Alt-Down]='^[[1;3B'
@@ -191,6 +208,11 @@ fi
 
 fpath=("${HOME}/.zsh/gradle-completion" $fpath)
 
+
+################################
+# Aliases
+################################
+
 unalias run-help
 
 alias chmod="chmod --changes"
@@ -198,6 +220,7 @@ alias chown="chown --changes"
 alias cp='cp --verbose'
 alias d='dirs -v'
 alias gradle=gradle-or-gradlew
+alias grep='grep --color=auto'
 alias h='history'
 alias help='run-help'
 alias history='fc -Dil'
@@ -210,6 +233,16 @@ alias rd='rmdir --verbose'
 alias rm='rm --verbose'
 alias vi='vim'
 
+
+################################
+# Source other scripts
+################################
+
+# termite: enable ctrl-shift-t to open terminal in the current directory
+if [[ $VTE_VERSION ]]; then
+  source /etc/profile.d/vte.sh
+  __vte_osc7
+fi
 
 source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
