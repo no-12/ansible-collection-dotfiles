@@ -217,9 +217,7 @@ fpath=("${HOME}/.zsh/gradle-completion" $fpath)
 
 unalias run-help
 
-alias chmod='chmod --changes'
-alias chown='chown --changes'
-alias cp='cp --verbose'
+alias cp='cp -v'
 alias d='dirs -v'
 alias g='git'
 alias gradle=gradle-or-gradlew
@@ -227,14 +225,22 @@ alias grep='grep --color=auto'
 alias h='history'
 alias help='run-help'
 alias history='fc -Dil'
-alias l='ls --all --human-readable -l'
-alias ln='ln --verbose'
-alias ls='ls --color=auto'
-alias md='mkdir --parents --verbose'
-alias mv='mv --verbose'
-alias rd='rmdir --verbose'
-alias rm='rm --verbose'
+alias l='ls -ahl'
+alias ln='ln -v'
+alias md='mkdir -pv'
+alias mv='mv -v'
+alias rd='rmdir'
+alias rm='rm -v'
 alias vi='vim'
+
+case "$OSTYPE" in
+  darwin*)
+    alias ls='ls -G'
+  ;;
+  linux*)
+    alias ls='ls --color=auto'
+  ;;
+esac
 
 
 ################################
