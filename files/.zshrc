@@ -153,14 +153,17 @@ zle -N up-line-or-beginning-search
 ################################
 
 typeset -g -A key
-key[Alt-Down]='^[[1;3B'
-key[Alt-Left]='^[[1;3D'
-key[Alt-Up]='^[[1;3A'
-key[Backspace]="${terminfo[kbs]}"
-key[Control-Backspace]='^H'
-key[Control-Delete]='^[[3;5~'
-key[Control-Left]="${terminfo[kLFT5]}"
-key[Control-Right]="${terminfo[kRIT5]}"
+key[Alt-Delete]="${terminfo[kDC3]}"
+key[Alt-Down]="${terminfo[kDN3]}"
+key[Alt-Left]="${terminfo[kLFT3]}"
+key[Alt-Right]="${terminfo[kRIT3]}"
+key[Alt-Up]="${terminfo[kUP3]}"
+key[Ctrl-Backspace]="${terminfo[kbs]}"
+key[Ctrl-Delete]="${terminfo[kDC5]}"
+key[Ctrl-Down]="${terminfo[kDN5]}"
+key[Ctrl-Left]="${terminfo[kLFT5]}"
+key[Ctrl-Right]="${terminfo[kRIT5]}"
+key[Ctrl-Up]="${terminfo[kUP5]}"
 key[Delete]="${terminfo[kdch1]}"
 key[Down]="${terminfo[kcud1]}"
 key[End]="${terminfo[kend]}"
@@ -189,11 +192,10 @@ fi
  bindkey "${key[Alt-Down]}" cdRecent
  bindkey "${key[Alt-Left]}" cdUndo
  bindkey "${key[Alt-Up]}" cdParent
- bindkey "${key[Backspace]}" backward-delete-char
- bindkey "${key[Backspace]}" backward-delete-word
- bindkey "${key[Control-Delete]}" kill-word
- bindkey "${key[Control-Left]}" backward-word
- bindkey "${key[Control-Right]}" forward-word
+ bindkey "${key[Ctrl-Backspace]}" backward-delete-word
+ bindkey "${key[Ctrl-Delete]}" kill-word
+ bindkey "${key[Ctrl-Left]}" backward-word
+ bindkey "${key[Ctrl-Right]}" forward-word
  bindkey "${key[Delete]}" delete-char
  bindkey "${key[Down]}" down-line-or-beginning-search
  bindkey "${key[End]}" end-of-line
