@@ -1,0 +1,10 @@
+---
+- name: chown extension directory
+  become: yes
+  file:
+    path: "{{ dotfiles_user.home }}/.zsh/{{ extension.dest }}"
+    state: directory
+    recurse: true
+    mode: u,g,o
+    owner: "{{ dotfiles_user.uid }}"
+    group: "{{ dotfiles_user.group }}"

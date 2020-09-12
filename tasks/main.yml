@@ -1,5 +1,5 @@
 ---
-- name: Ensure package is present
+- name: Ensure packages are present
   become: yes
   package:
     name:
@@ -8,38 +8,42 @@
       - curl
     state: present
 
-- name: Ensure zsh is the default shell
+- name: Ensure user exists and zsh is the default shell
   become: yes
   user:
-    name: "{{ ansible_user }}"
+    name: "{{ dotfiles_username }}"
     shell: /usr/bin/zsh
-  register: zsh_user
+  register: dotfiles_user
 
 - name: Ensure .zsh directory is present
+  become: yes
   file:
-    path: "{{ zsh_user.home }}/.zsh"
+    path: "{{ dotfiles_user.home }}/.zsh"
     state: directory
     mode: 0755
+    owner: "{{ dotfiles_user.uid }}"
+    group: "{{ dotfiles_user.group }}"
 
 - name: Ensure zsh extensions are present
-  git:
-    repo: "{{ item.repo }}"
-    dest: "{{ zsh_user.home }}/.zsh/{{ item.dest }}"
-    depth: 1
-    version: "{{ item.version }}"
-  with_items:
+  include_tasks: zsh_extensions.yml
+  loop:
     - repo: https://github.com/gradle/gradle-completion.git
       dest: gradle-completion
       version: "{{ zsh_gradle_completion_version }}"
     - repo: https://github.com/romkatv/powerlevel10k.git
       dest: powerlevel10k
       version: "{{ zsh_powerlevel10k_version }}"
+  loop_control:
+    loop_var: extension
 
 - name: Ensure dot files exists
+  become: yes
   copy:
     src: "{{ item }}"
-    dest: "{{ zsh_user.home }}/{{ item }}"
+    dest: "{{ dotfiles_user.home }}/{{ item }}"
     mode: 0644
+    owner: "{{ dotfiles_user.uid }}"
+    group: "{{ dotfiles_user.group }}"
   with_items:
     - .zshrc
     - .p10k.zsh
