@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+source "venv/bin/activate"
 declare ROLE_DIR
 ROLE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 ansible-playbook \

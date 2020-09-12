@@ -1,8 +1,14 @@
-# zsh ansible role
-This is an ansible role to setup zsh, oh-my-zsh, my preferred zsh theme and my zsh dotfiles.
-
+# Ansible role for custom dotfiles
+## Setup Python virtual environment
+Install ansible, molecule and other dependencies to run the role locally and run tests
+```sh
+./setup_venv.sh
+```
+## Run locally
+```sh
+./run_role_locally.sh
+```
 ## Run tests
-Requirements: python3
 ```sh
 ./run_molecule.sh
 ```

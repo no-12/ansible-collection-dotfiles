@@ -1,7 +1,5 @@
 ---
 - name: Converge
   hosts: all
-  tasks:
-    - name: "Include ansible_role_zsh"
-      include_role:
-        name: ansible_role_zsh
+  roles:
+    - role: ansible_role_dotfiles

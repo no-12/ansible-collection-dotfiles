@@ -1,8 +1,8 @@
 ---
-- name: chown extension directory
+- name: chown zsh extension directory
   become: yes
   file:
-    path: "{{ dotfiles_user.home }}/.zsh/{{ extension.dest }}"
+    path: "{{ dotfiles_user.home }}/.zsh"
     state: directory
     recurse: true
     mode: u,g,o

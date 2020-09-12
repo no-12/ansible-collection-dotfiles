@@ -6,7 +6,4 @@
     dest: "{{ dotfiles_user.home }}/.zsh/{{ extension.dest }}"
     depth: 1
     version: "{{ extension.version }}"
-  notify: chown extension directory
-
-- name: "Ensure zsh extension {{ extension.dest }} directory is owned by {{ dotfiles_user.name }}"
-  meta: flush_handlers
+  notify: chown zsh extension directory

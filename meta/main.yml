@@ -1,6 +1,6 @@
 galaxy_info:
   author: Nico Ohnezat
-  description: zsh/oh-my-zsh/dotfiles
+  description: dotfiles
   license: WTFPL
   min_ansible_version: 2.9
   platforms:
@@ -11,7 +11,5 @@ galaxy_info:
     versions:
     - 10
   galaxy_tags:
-    - zsh
-    - ohmyzsh
     - dotfiles
 dependencies: []
