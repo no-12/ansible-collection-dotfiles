@@ -189,24 +189,24 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
   zle -N zle-line-finish
 fi
 
- bindkey "${key[Alt-Down]}" cdRecent
- bindkey "${key[Alt-Left]}" cdUndo
- bindkey "${key[Alt-Up]}" cdParent
- bindkey "${key[Ctrl-Backspace]}" backward-delete-word
- bindkey "${key[Ctrl-Delete]}" kill-word
- bindkey "${key[Ctrl-Left]}" backward-word
- bindkey "${key[Ctrl-Right]}" forward-word
- bindkey "${key[Delete]}" delete-char
- bindkey "${key[Down]}" down-line-or-beginning-search
- bindkey "${key[End]}" end-of-line
- bindkey "${key[Home]}" beginning-of-line
- bindkey "${key[Insert]}" overwrite-mode
- bindkey "${key[Left]}" backward-char
- bindkey "${key[PageDown]}" down-line-or-history
- bindkey "${key[PageUp]}" up-line-or-history
- bindkey "${key[Right]}" forward-char
- bindkey "${key[Shift-Tab]}" reverse-menu-complete
- bindkey "${key[Up]}" up-line-or-beginning-search
+bindkey "${key[Alt-Down]}" cdRecent
+bindkey "${key[Alt-Left]}" cdUndo
+bindkey "${key[Alt-Up]}" cdParent
+bindkey "${key[Ctrl-Backspace]}" backward-delete-word
+bindkey "${key[Ctrl-Delete]}" kill-word
+bindkey "${key[Ctrl-Left]}" backward-word
+bindkey "${key[Ctrl-Right]}" forward-word
+bindkey "${key[Delete]}" delete-char
+bindkey "${key[Down]}" down-line-or-beginning-search
+bindkey "${key[End]}" end-of-line
+bindkey "${key[Home]}" beginning-of-line
+bindkey "${key[Insert]}" overwrite-mode
+bindkey "${key[Left]}" backward-char
+bindkey "${key[PageDown]}" down-line-or-history
+bindkey "${key[PageUp]}" up-line-or-history
+bindkey "${key[Right]}" forward-char
+bindkey "${key[Shift-Tab]}" reverse-menu-complete
+bindkey "${key[Up]}" up-line-or-beginning-search
 
 fpath=("${HOME}/.zsh/gradle-completion" $fpath)
 
