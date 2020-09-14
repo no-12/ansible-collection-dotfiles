@@ -22,3 +22,9 @@
     src: .gitconfig
     dest: "{{ ansible_env.HOME }}/.gitconfig"
     mode: 0644
+
+- name: Ensure .gitignore is present
+  copy:
+    src: gitignore
+    dest: "{{ ansible_env.HOME }}/.gitignore"
+    mode: 0644
