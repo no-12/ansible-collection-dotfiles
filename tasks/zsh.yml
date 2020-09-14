@@ -1,12 +1,9 @@
 ---
 - name: Ensure .zsh directory is present
-  become: yes
   file:
-    path: "{{ dotfiles_user.home }}/.zsh"
+    path: "{{ ansible_env.HOME }}/.zsh"
     state: directory
     mode: 0755
-    owner: "{{ dotfiles_user.uid }}"
-    group: "{{ dotfiles_user.group }}"
 
 - name: Ensure zsh extensions are present
   include_tasks: zsh_extensions.yml
@@ -21,13 +18,10 @@
     loop_var: extension
 
 - name: Ensure zsh dotfiles are present
-  become: yes
   copy:
     src: "{{ item }}"
-    dest: "{{ dotfiles_user.home }}/{{ item }}"
+    dest: "{{ ansible_env.HOME }}/{{ item }}"
     mode: 0644
-    owner: "{{ dotfiles_user.uid }}"
-    group: "{{ dotfiles_user.group }}"
   with_items:
     - .zshrc
     - .p10k.zsh

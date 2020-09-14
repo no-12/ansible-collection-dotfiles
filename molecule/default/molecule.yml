@@ -24,4 +24,3 @@ provisioner:
       all:
         ansible_python_interpreter: /usr/bin/python
         ansible_user: ansible
-        dotfiles_username: test_user

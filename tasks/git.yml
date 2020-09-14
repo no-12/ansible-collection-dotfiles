@@ -1,7 +1,7 @@
 ---
 - name: Fetch existing .gitconfig
   fetch:
-    src: "{{ dotfiles_user.home }}/.gitconfig"
+    src: "{{ ansible_env.HOME }}/.gitconfig"
     dest: /tmp
     fail_on_missing: false
   changed_when: false
@@ -20,7 +20,5 @@
 - name: Ensure .gitconfig is present
   template:
     src: .gitconfig
-    dest: "{{ dotfiles_user.home }}/.gitconfig"
+    dest: "{{ ansible_env.HOME }}/.gitconfig"
     mode: 0644
-    owner: "{{ dotfiles_user.uid }}"
-    group: "{{ dotfiles_user.group }}"
