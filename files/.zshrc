@@ -217,6 +217,7 @@ fpath=("${HOME}/.zsh/gradle-completion" $fpath)
 
 unalias run-help
 
+alias ackn='ack --nopager'
 alias cp='cp -v'
 alias d='dirs -v'
 alias g='git'
