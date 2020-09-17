@@ -248,6 +248,9 @@ esac
 # Source other scripts
 ################################
 
+# fzf
+source "$HOME/.fzfrc"
+
 # termite: enable ctrl-shift-t to open terminal in the current directory
 if [[ $VTE_VERSION ]]; then
   source /etc/profile.d/vte.sh
