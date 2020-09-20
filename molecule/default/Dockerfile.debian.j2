@@ -3,7 +3,7 @@ FROM debian:stable-slim
 ENV ANSIBLE_USER=ansible
 
 RUN apt-get update && \
-    apt-get install -y ack curl fzf git highlight python sudo tree zsh && \
+    apt-get install -y ack bat curl fzf git python sudo tree zsh && \
     rm -rf /var/lib/apt/lists/* && \
     groupadd -r $ANSIBLE_USER && \
     useradd -m -g $ANSIBLE_USER $ANSIBLE_USER && \
