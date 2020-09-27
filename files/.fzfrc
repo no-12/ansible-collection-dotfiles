@@ -10,30 +10,41 @@ is_git_repo() {
     git rev-parse --is-inside-work-tree >/dev/null
 }
 
-gl() {
+ga() {
     is_git_repo || return 1
-    git lg --color=always "$@" |
-        fzf --no-multi --no-sort --reverse --tiebreak=index --preview="echo {} | grep -Eo '[a-f0-9]+' | head -1 | xargs -I% git show --color=always %" |
-        grep -Eo '[a-f0-9]+' |
-        head -1 |
-        xargs -I% git show --color=always %
+    git status -su |
+        grep -E '^[[:blank:]]|\?' |
+        fzf --exit-0 --multi --reverse --tiebreak=index --preview='[[ {1} = "??" ]] && bat --color=always {2} || git diff --color=always -- {2}' |
+        cut -c4- |
+        xargs -i git add --verbose {}
+    git status
 }
 
-gcb() {
+glg() {
+    is_git_repo || return 1
+    git lg --color=always "$@" |
+        fzf --no-multi --no-sort --reverse --tiebreak=index --preview="echo {} | grep -Eo '[a-f0-9]+' | head -1 | xargs git show --color=always" |
+        grep -Eo '[a-f0-9]+' |
+        head -1 |
+        xargs -i git show --color=always {}
+}
+
+_git_branch_fzf() {
+    git branch --color=always -vv "$@" |
+        grep -v HEAD |
+        fzf --no-multi --reverse --preview="echo {} | awk -F'[* ]' '{print \$3}' | xargs git l --color=always --max-count 50" |
+        awk -F'[* ]' '{print $3}'
+}
+
+gbr() {
     is_git_repo || return 1
     git remote update origin --prune
-    local branch
-    branch=$(
-        git branch --all --color=always -vv |
-            grep -v HEAD |
-            fzf --no-multi --reverse --preview="echo {} | awk -F'[* ]' '{print \$3}' | xargs -I$ git lg --color=always $" |
-            awk -F'[* ]' '{print $3}'
-    )
-    if [[ $branch == remotes/* ]]; then
-        git checkout --track "$branch"
-    else
-        git checkout "$branch"
-    fi
+    _git_branch_fzf --remotes "$@" | xargs -i git checkout --track {}
+}
+
+gb() {
+    is_git_repo || return 1
+    _git_branch_fzf "$@" | xargs -i git checkout {}
 }
 
 if [[ -f /usr/share/fzf/completion.zsh ]]; then
