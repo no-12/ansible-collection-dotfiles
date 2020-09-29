@@ -16,35 +16,35 @@ ga() {
         grep -E '^[[:blank:]]|\?' |
         fzf --exit-0 --multi --reverse --tiebreak=index --preview='[[ {1} = "??" ]] && bat --color=always {2} || git diff --color=always -- {2}' |
         cut -c4- |
-        xargs -i git add --verbose {}
+        xargs -I % git add --verbose %
     git status
 }
 
 glg() {
     is_git_repo || return 1
     git lg --color=always "$@" |
-        fzf --no-multi --no-sort --reverse --tiebreak=index --preview="echo {} | grep -Eo '[a-f0-9]+' | head -1 | xargs git show --color=always" |
+        fzf --no-multi --no-sort --reverse --tiebreak=index --preview="echo {} | grep -Eo '[a-f0-9]+' | head -1 | xargs -I % git show --color=always %" |
         grep -Eo '[a-f0-9]+' |
         head -1 |
-        xargs -i git show --color=always {}
+        xargs -I % git show --color=always %
 }
 
 _git_branch_fzf() {
     git branch --color=always -vv "$@" |
         grep -v HEAD |
-        fzf --no-multi --reverse --preview="echo {} | awk -F'[* ]' '{print \$3}' | xargs git l --color=always --max-count 50" |
+        fzf --no-multi --reverse --preview="echo {} | awk -F'[* ]' '{print \$3}' | xargs -I % git l --color=always --max-count 50 %" |
         awk -F'[* ]' '{print $3}'
 }
 
 gbr() {
     is_git_repo || return 1
     git remote update origin --prune
-    _git_branch_fzf --remotes "$@" | xargs -i git checkout --track {}
+    _git_branch_fzf --remotes "$@" | xargs -I % git checkout --track %
 }
 
 gb() {
     is_git_repo || return 1
-    _git_branch_fzf "$@" | xargs -i git checkout {}
+    _git_branch_fzf "$@" | xargs -I % git checkout %
 }
 
 if [[ -f /usr/share/fzf/completion.zsh ]]; then
