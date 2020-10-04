@@ -14,7 +14,7 @@ ga() {
     is_git_repo || return 1
     git status -su |
         grep -E '^[[:blank:]]|\?' |
-        fzf --exit-0 --multi --reverse --tiebreak=index --preview='[[ {1} = "??" ]] && bat --color=always {2} || git diff --color=always -- {2}' |
+        fzf --exit-0 --multi --reverse --tiebreak=index --preview='[[ {1} = "??" ]] && highlight -O ansi -l {2} || git diff --color=always -- {2}' |
         cut -c4- |
         xargs -I % git add --verbose %
     git status
