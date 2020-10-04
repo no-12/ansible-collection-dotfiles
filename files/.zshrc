@@ -13,7 +13,6 @@ DIRSTACKSIZE=16
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=50000
 SAVEHIST=$HISTSIZE
-TERM=xterm-256color
 
 # Colors
 black='\e[0;30m'
@@ -153,26 +152,19 @@ zle -N up-line-or-beginning-search
 ################################
 
 typeset -g -A key
-key[Alt-Delete]="${terminfo[kDC3]}"
-key[Alt-Down]="${terminfo[kDN3]}"
-key[Alt-Left]="${terminfo[kLFT3]}"
-key[Alt-Right]="${terminfo[kRIT3]}"
-key[Alt-Up]="${terminfo[kUP3]}"
-key[Ctrl-Backspace]="${terminfo[kbs]}"
-key[Ctrl-Delete]="${terminfo[kDC5]}"
-key[Ctrl-Down]="${terminfo[kDN5]}"
-key[Ctrl-Left]="${terminfo[kLFT5]}"
-key[Ctrl-Right]="${terminfo[kRIT5]}"
-key[Ctrl-Up]="${terminfo[kUP5]}"
+key[Alt-Delete]='^[[3;3~'
+key[Alt-Left]='^[[1;3D'
+key[Alt-Right]='^[[1;3C'
+key[Ctrl-Down]='^[[1;5B'
+key[Ctrl-Left]='^[[1;5D'
+key[Ctrl-Up]='^[[1;5A'
 key[Delete]="${terminfo[kdch1]}"
 key[Down]="${terminfo[kcud1]}"
 key[End]="${terminfo[kend]}"
 key[Home]="${terminfo[khome]}"
 key[Insert]="${terminfo[kich1]}"
-key[Left]="${terminfo[kcub1]}"
 key[PageDown]="${terminfo[knp]}"
 key[PageUp]="${terminfo[kpp]}"
-key[Right]="${terminfo[kcuf1]}"
 key[Shift-Tab]="${terminfo[kcbt]}"
 key[Up]="${terminfo[kcuu1]}"
 
@@ -189,22 +181,19 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
   zle -N zle-line-finish
 fi
 
-bindkey "${key[Alt-Down]}" cdRecent
-bindkey "${key[Alt-Left]}" cdUndo
-bindkey "${key[Alt-Up]}" cdParent
-bindkey "${key[Ctrl-Backspace]}" backward-delete-word
-bindkey "${key[Ctrl-Delete]}" kill-word
-bindkey "${key[Ctrl-Left]}" backward-word
-bindkey "${key[Ctrl-Right]}" forward-word
+bindkey "${key[Alt-Delete]}" kill-word
+bindkey "${key[Alt-Left]}" backward-word
+bindkey "${key[Alt-Right]}" forward-word
+bindkey "${key[Ctrl-Down]}" cdRecent
+bindkey "${key[Ctrl-Left]}" cdUndo
+bindkey "${key[Ctrl-Up]}" cdParent
 bindkey "${key[Delete]}" delete-char
 bindkey "${key[Down]}" down-line-or-beginning-search
 bindkey "${key[End]}" end-of-line
 bindkey "${key[Home]}" beginning-of-line
 bindkey "${key[Insert]}" overwrite-mode
-bindkey "${key[Left]}" backward-char
 bindkey "${key[PageDown]}" down-line-or-history
 bindkey "${key[PageUp]}" up-line-or-history
-bindkey "${key[Right]}" forward-char
 bindkey "${key[Shift-Tab]}" reverse-menu-complete
 bindkey "${key[Up]}" up-line-or-beginning-search
 
