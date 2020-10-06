@@ -1,5 +1,21 @@
 ---
 - name: Converge
   hosts: all
+  pre_tasks:
+    - name: Upgrading Archlinux packages
+      become: true
+      community.general.pacman:
+        update_cache: true
+        upgrade: true
+      changed_when: false
+      when: ansible_os_family == "Archlinux"
+
+    - name: Upgrading Debian packages
+      become: true
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: true
+      changed_when: false
+      when: ansible_os_family == "Debian"
   roles:
-    - role: ansible_role_dotfiles
+    - role: ansible-role-dotfiles

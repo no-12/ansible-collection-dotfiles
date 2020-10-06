@@ -1,4 +1,18 @@
 ---
+- name: Ensure packages are present
+  become: "{{ true if ansible_pkg_mgr != 'brew' else false }}"
+  package:
+    name:
+      - ack
+      - curl
+      - fzf
+      - git
+      - highlight
+      - tree
+      - zsh
+    state: present
+  tags: install_packages
+
 - name: Ensure zsh dotfiles are present
   include_tasks: zsh.yml
 
