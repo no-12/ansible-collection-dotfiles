@@ -11,15 +11,11 @@ print_usage() {
 while getopts "hp" opt; do
   case ${opt} in
   h) print_usage && exit 0 ;;
-  p) EXTRA_ARGS=(--ask-become-pass) ;;
+  p) [[ "$OSTYPE" == "darwin"* ]] && EXTRA_ARGS=(--) || EXTRA_ARGS=(--ask-become-pass) ;;
   *) print_usage exit 1 ;;
   esac
 done
 shift $((OPTIND - 1))
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  EXTRA_ARGS=(--)
-fi
 
 source "venv/bin/activate"
 

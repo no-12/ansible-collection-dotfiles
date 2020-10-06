@@ -1,6 +1,6 @@
 ---
 - name: Ensure packages are present
-  become: "{{ true if ansible_pkg_mgr != 'brew' else false }}"
+  become: "{{ true if ansible_pkg_mgr != 'homebrew' else false }}"
   package:
     name:
       - ack
