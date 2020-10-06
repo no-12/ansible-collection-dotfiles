@@ -47,15 +47,19 @@ gb() {
     _git_branch_fzf "$@" | xargs -I % git checkout %
 }
 
-# arch
-if [[ -f /usr/share/fzf/completion.zsh ]]; then
-    source /usr/share/fzf/completion.zsh
-fi
-if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
-    source /usr/share/fzf/key-bindings.zsh
-fi
+fzf_extra_paths=(
+    # archlinux
+    /usr/share/fzf/completion.zsh
+    /usr/share/fzf/key-bindings.zsh
+    # debian
+    /usr/share/doc/fzf/examples/key-bindings.zsh
+    # brew
+    /usr/local/opt/fzf/shell/key-bindings.zsh
+    /usr/local/opt/fzf/shell/completion.zsh
+)
 
-# debian
-if [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
-    source /usr/share/doc/fzf/examples/key-bindings.zsh
-fi
+for fzf_extra_path in "${fzf_extra_paths[@]}"; do
+    if [[ -f "$fzf_extra_path" ]]; then
+        source "$fzf_extra_path"
+    fi
+done
