@@ -1,9 +1,9 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 ################################
 # Environment variables
@@ -246,6 +246,34 @@ if [[ $VTE_VERSION ]]; then
   __vte_osc7
 fi
 
-source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' formats "%b %m%u%c"
+
+precmd() {
+  vcs_info
+
+  local host_info=""
+  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    host_info="[%m]:"
+  fi
+
+  PS1="%(?.%K{green}%F{black}.%B%F{yellow}%K{red} ✘ %? %b%F{red}%K{green}%F{black})%B$host_info %~ %b%f%k"
+  local previous_bg_color=green
+
+  if [ ! -z ${vcs_info_msg_0_} ]; then
+    PS1+="%F{$previous_bg_color}%K{yellow}%F{black}  $vcs_info_msg_0_ %f%k"
+    previous_bg_color=yellow
+  fi
+
+  if [ ! -z $VIRTUAL_ENV ]; then
+    PS1+="%F{$previous_bg_color}%K{blue}%F{black}  $(basename $VIRTUAL_ENV) %f%k"
+    previous_bg_color=blue
+  fi
+
+  PS1+="%F{$previous_bg_color}%k%f"$'\n%(!.#.❯) '
+}
+
+# source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
+# # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
