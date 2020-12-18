@@ -4,10 +4,10 @@
   package:
     name:
       - ack
+      - bat
       - curl
       - fzf
       - git
-      - highlight
       - tree
       - zsh
     state: present

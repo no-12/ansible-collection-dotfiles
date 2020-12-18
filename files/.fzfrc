@@ -1,10 +1,20 @@
 export FZF_DEFAULT_OPTS="
 --ansi
---height='80%'
 --bind='alt-s:toggle-sort'
 --bind='alt-p:toggle-preview'
 --bind='alt-w:toggle-preview-wrap'
+--no-mouse
 "
+
+f() {
+    local file_path
+    file_path=$(find . -type f -printf '%P\n' 2>/dev/null | fzf --preview='bat --force-colorization {}')
+    if uname | grep -q "Darwin"; then
+        open "$file_path" >/dev/null 2>&1
+    else
+        xdg-open "$file_path" >/dev/null 2>&1
+    fi
+}
 
 is_git_repo() {
     git rev-parse --is-inside-work-tree >/dev/null
@@ -14,7 +24,7 @@ ga() {
     is_git_repo || return 1
     git status -su |
         grep -E '^[[:blank:]]|\?' |
-        fzf --exit-0 --multi --reverse --tiebreak=index --preview='[[ {1} = "??" ]] && highlight -O ansi -l {2} || git diff --color=always -- {2}' |
+        fzf --exit-0 --tiebreak=index --multi --preview='[[ {1} = "??" ]] && bat --force-colorization {2} || git diff --color=always -- {2}' |
         cut -c4- |
         xargs -I % git add --verbose %
     git status
@@ -23,7 +33,7 @@ ga() {
 glg() {
     is_git_repo || return 1
     git lg --color=always "$@" |
-        fzf --no-multi --no-sort --reverse --tiebreak=index --preview="echo {} | grep -Eo '[a-f0-9]+' | head -1 | xargs -I % git show --color=always %" |
+        fzf --exit-0 --tiebreak=index --preview="echo {} | grep -Eo '[a-f0-9]+' | head -1 | xargs -I % git show --color=always %" |
         grep -Eo '[a-f0-9]+' |
         head -1 |
         xargs -I % git show --color=always %
@@ -32,7 +42,7 @@ glg() {
 _git_branch_fzf() {
     git branch --color=always -vv "$@" |
         grep -v HEAD |
-        fzf --no-multi --reverse --preview="echo {} | awk -F'[* ]' '{print \$3}' | xargs -I % git l --color=always --max-count 50 %" |
+        fzf --preview="echo {} | awk -F'[* ]' '{print \$3}' | xargs -I % git l --color=always --max-count 50 %" |
         awk -F'[* ]' '{print $3}'
 }
 
