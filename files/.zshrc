@@ -140,7 +140,7 @@ precmd() {
     PS1+="%(!.%K{red} %n@%m %F{red}.%K{black} %n@%m %F{black})%K{green}%k"
   fi
 
-  PS1+="%B%F{black}%K{green} %~ %b%f%k"
+  PS1+="%F{black}%K{green} %~ %f%k"
   local previous_bg_color=green
 
   if type __git_ps1 > /dev/null 2>&1 && ( [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 ); then
@@ -149,7 +149,7 @@ precmd() {
   fi
 
   if [ ! -z $VIRTUAL_ENV ]; then
-    PS1+="%F{$previous_bg_color}%K{blue}%F{black}  $(basename $VIRTUAL_ENV) %f%k"
+    PS1+="%F{$previous_bg_color}%K{blue}%f  $(basename $VIRTUAL_ENV) %k"
     previous_bg_color=blue
   fi
 
