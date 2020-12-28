@@ -139,7 +139,7 @@ precmd() {
     host_info="[%m]:"
   fi
 
-  PS1="%(?.%K{green}%F{black}.%B%F{yellow}%K{red} ✘ %? %b%F{red}%K{green}%F{black})%B$host_info %~ %b%f%k"
+  PS1="%B%F{black}%K{green}$host_info %~ %b%f%k"
   local previous_bg_color=green
 
   if type __git_ps1 > /dev/null 2>&1 && ( [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 ); then
@@ -152,7 +152,8 @@ precmd() {
     previous_bg_color=blue
   fi
 
-  PS1+="%F{$previous_bg_color}%k%f"$'\n%(!.#.❯) '
+  PS1+="%F{$previous_bg_color}%k%f"
+  PS1+=$'\n%(?.%F{green}%(!.#.❯)%f.%B%F{yellow}%K{red} ✘ %? %b%F{red}%k%(!.#.❯)%f) '
 }
 
 preexec() {
