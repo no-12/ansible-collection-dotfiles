@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
-
 ################################
 # Environment variables
 ################################
@@ -13,6 +6,12 @@ DIRSTACKSIZE=16
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=50000
 SAVEHIST=$HISTSIZE
+
+GIT_PS1_SHOWDIRTYSTAT=0
+GIT_PS1_SHOWSTASHSTATE=0
+GIT_PS1_SHOWUNTRACKEDFILES=0
+GIT_PS1_SHOWUPSTREAM="auto verbose"
+GIT_PS1_STATESEPARATOR=""
 
 # Colors
 black='\e[0;30m'
@@ -71,7 +70,8 @@ setopt \
   pushd_minus \
   pushd_silent \
   pushd_to_home \
-  share_history \
+  PROMPT_SUBST \
+  share_history
 
 
 ################################
@@ -132,10 +132,32 @@ cdUndo() {
 }
 
 precmd() {
+  # set terminal window title
   print -Pn "\e]0;[%n@%M]: %~\a"
+
+  local host_info=""
+  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    host_info="[%m]:"
+  fi
+
+  PS1="%(?.%K{green}%F{black}.%B%F{yellow}%K{red} ✘ %? %b%F{red}%K{green}%F{black})%B$host_info %~ %b%f%k"
+  local previous_bg_color=green
+
+  if type __git_ps1 > /dev/null 2>&1 && ( [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 ); then
+    PS1+="%F{$previous_bg_color}%K{yellow}%F{black}  $(__git_ps1 "%s") %f%k"
+    previous_bg_color=yellow
+  fi
+
+  if [ ! -z $VIRTUAL_ENV ]; then
+    PS1+="%F{$previous_bg_color}%K{blue}%F{black}  $(basename $VIRTUAL_ENV) %f%k"
+    previous_bg_color=blue
+  fi
+
+  PS1+="%F{$previous_bg_color}%k%f"$'\n%(!.#.❯) '
 }
 
 preexec() {
+  # set terminal window title to current command
   print -Pn "\e]0;[%n@%M]: %~ - $1\a"
 }
 
@@ -237,43 +259,11 @@ esac
 # Source other scripts
 ################################
 
-# fzf
 source "$HOME/.fzfrc"
+source /usr/share/git/completion/git-prompt.sh
 
 # termite: enable ctrl-shift-t to open terminal in the current directory
 if [[ $VTE_VERSION ]]; then
   source /etc/profile.d/vte.sh
   __vte_osc7
 fi
-
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' formats "%b %m%u%c"
-
-precmd() {
-  vcs_info
-
-  local host_info=""
-  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    host_info="[%m]:"
-  fi
-
-  PS1="%(?.%K{green}%F{black}.%B%F{yellow}%K{red} ✘ %? %b%F{red}%K{green}%F{black})%B$host_info %~ %b%f%k"
-  local previous_bg_color=green
-
-  if [ ! -z ${vcs_info_msg_0_} ]; then
-    PS1+="%F{$previous_bg_color}%K{yellow}%F{black}  $vcs_info_msg_0_ %f%k"
-    previous_bg_color=yellow
-  fi
-
-  if [ ! -z $VIRTUAL_ENV ]; then
-    PS1+="%F{$previous_bg_color}%K{blue}%F{black}  $(basename $VIRTUAL_ENV) %f%k"
-    previous_bg_color=blue
-  fi
-
-  PS1+="%F{$previous_bg_color}%k%f"$'\n%(!.#.❯) '
-}
-
-# source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
-# # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
