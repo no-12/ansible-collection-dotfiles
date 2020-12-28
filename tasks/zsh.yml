@@ -11,9 +11,6 @@
     - repo: https://github.com/gradle/gradle-completion.git
       dest: gradle-completion
       version: "{{ dotfiles_zsh_gradle_completion_version }}"
-    - repo: https://github.com/romkatv/powerlevel10k.git
-      dest: powerlevel10k
-      version: "{{ dotfiles_zsh_powerlevel10k_version }}"
   loop_control:
     loop_var: extension
 
@@ -24,4 +21,3 @@
     mode: 0644
   with_items:
     - .zshrc
-    - .p10k.zsh
