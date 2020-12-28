@@ -1,7 +1,7 @@
 ################################
 # Environment variables
 ################################
-
+DEFAULT_USER="$(whoami)"
 DIRSTACKSIZE=16
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=50000
@@ -69,7 +69,7 @@ setopt \
   pushd_minus \
   pushd_silent \
   pushd_to_home \
-  PROMPT_SUBST \
+  promptsubst \
   share_history
 
 
@@ -132,14 +132,15 @@ cdUndo() {
 
 precmd() {
   # set terminal window title
-  print -Pn "\e]0;[%n@%M]: %~\a"
+  print -Pn "\e]0;[%n@%m]: %~\a"
 
-  local host_info=""
-  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    host_info="[%m]:"
+  PS1=""
+
+  if [[ "$EUID" -eq 0 || "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+    PS1+="%(!.%K{red} %n@%m %F{red}.%K{black} %n@%m %F{black})%K{green}%k"
   fi
 
-  PS1="%B%F{black}%K{green}$host_info %~ %b%f%k"
+  PS1+="%B%F{black}%K{green} %~ %b%f%k"
   local previous_bg_color=green
 
   if type __git_ps1 > /dev/null 2>&1 && ( [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 ); then
@@ -153,12 +154,12 @@ precmd() {
   fi
 
   PS1+="%F{$previous_bg_color}%k%f"
-  PS1+=$'\n%(?.%F{green}%(!.#.❯)%f.%B%F{yellow}%K{red} ✘ %? %b%F{red}%k%(!.#.❯)%f) '
+  PS1+=$'\n%(?.%F{green}.%F{red})%(!.#.❯)%f '
 }
 
 preexec() {
   # set terminal window title to current command
-  print -Pn "\e]0;[%n@%M]: %~ - $1\a"
+  print -Pn "\e]0;[%n@%m]: %~ - $1\a"
 }
 
 zle -N cdParent
