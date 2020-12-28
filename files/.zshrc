@@ -260,11 +260,11 @@ esac
 # Source other scripts
 ################################
 
-source "$HOME/.fzfrc"
-source /usr/share/git/completion/git-prompt.sh
+[ -f "$HOME/.fzfrc" ] && source "$HOME/.fzfrc"
+[ -f /usr/share/git/completion/git-prompt.sh ] && source /usr/share/git/completion/git-prompt.sh
 
 # termite: enable ctrl-shift-t to open terminal in the current directory
-if [[ $VTE_VERSION ]]; then
+if [[ -f /etc/profile.d/vte.sh && $VTE_VERSION ]]; then
   source /etc/profile.d/vte.sh
   __vte_osc7
 fi
