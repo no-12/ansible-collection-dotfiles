@@ -7,11 +7,6 @@ HISTFILE=$HOME/.zsh_history
 HISTSIZE=50000
 SAVEHIST=$HISTSIZE
 
-GIT_PS1_SHOWDIRTYSTAT=0
-GIT_PS1_SHOWSTASHSTATE=0
-GIT_PS1_SHOWUNTRACKEDFILES=0
-GIT_PS1_SHOWUPSTREAM=(auto verbose)
-
 # Colors
 black='\e[0;30m'
 BLACK='\e[1;30m'
@@ -41,6 +36,7 @@ autoload -Uz \
   down-line-or-beginning-search \
   run-help \
   up-line-or-beginning-search \
+  vcs_info
 
 compinit
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
@@ -48,6 +44,15 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' special-dirs true
 zstyle ':completion:*' use-cache yes
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' formats "%b %c%u"
+zstyle ':vcs_info:*' actionformats "%b %F{red}(%a)%f %c%u"
+zstyle ':vcs_info:*' get-revision true
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' stagedstr '+'
+zstyle ':vcs_info:*' unstagedstr '±'
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked git-stashed
 
 unsetopt \
   flowcontrol \
@@ -69,7 +74,6 @@ setopt \
   pushd_minus \
   pushd_silent \
   pushd_to_home \
-  promptsubst \
   share_history
 
 
@@ -130,9 +134,24 @@ cdUndo() {
   fi
 }
 
++vi-git-untracked(){
+  if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+    git status --porcelain | grep '??' &> /dev/null ; then
+    hook_com[unstaged]+='^'
+  fi
+}
+
++vi-git-stashed() {
+  if git rev-parse --verify refs/stash &>/dev/null ; then
+    hook_com[unstaged]+='*'
+  fi
+}
+
 precmd() {
   # set terminal window title
   print -Pn "\e]0;[%n@%m]: %~\a"
+
+  vcs_info
 
   PS1=""
 
@@ -143,8 +162,8 @@ precmd() {
   PS1+="%F{black}%K{green} %~ %f%k"
   local previous_bg_color=green
 
-  if type __git_ps1 > /dev/null 2>&1 && ( [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 ); then
-    PS1+="%F{$previous_bg_color}%K{yellow}%F{black}  $(__git_ps1 "%s") %f%k"
+  if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; then
+    PS1+="%F{$previous_bg_color}%K{yellow}%F{black}  ${vcs_info_msg_0_} %f%k"
     previous_bg_color=yellow
   fi
 
@@ -261,7 +280,6 @@ esac
 ################################
 
 [ -f "$HOME/.fzfrc" ] && source "$HOME/.fzfrc"
-[ -f /usr/share/git/completion/git-prompt.sh ] && source /usr/share/git/completion/git-prompt.sh
 
 # termite: enable ctrl-shift-t to open terminal in the current directory
 if [[ -f /etc/profile.d/vte.sh && $VTE_VERSION ]]; then
