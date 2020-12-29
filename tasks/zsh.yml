@@ -13,6 +13,7 @@
       version: "{{ dotfiles_zsh_gradle_completion_version }}"
   loop_control:
     loop_var: extension
+  when: dotfiles_zsh_install_external_extensions
 
 - name: Ensure zsh dotfiles are present
   copy:
