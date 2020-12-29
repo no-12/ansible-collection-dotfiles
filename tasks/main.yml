@@ -4,6 +4,7 @@
   package:
     name:
       - ack
+      - atool
       - bat
       - curl
       - fzf
@@ -16,12 +17,6 @@
     state: present
   tags: install_packages
 
-- name: Ensure zsh dotfiles are present
-  include_tasks: zsh.yml
-
-- name: Ensure git dotfiles are present
-  include_tasks: git.yml
-
 - name: Ensure common dotfiles are present
   copy:
     src: "{{ item }}"
@@ -30,3 +25,12 @@
   with_items:
     - .ackrc
     - .fzfrc
+
+- name: Ensure zsh dotfiles are present
+  include_tasks: zsh.yml
+
+- name: Ensure git dotfiles are present
+  include_tasks: git.yml
+
+- name: Ensure ranger dotfiles are present
+  include_tasks: ranger.yml
