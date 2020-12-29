@@ -1,14 +1,14 @@
 ---
 - name: Ensures ranger config dir exists
   file:
-    path: "{{ ansible_env.HOME }}/.config/ranger"
+    path: "{{ home.stdout }}/.config/ranger"
     state: directory
     recurse: yes
 
 - name: Ensure ranger config files are present
   copy:
     src: "{{ item }}"
-    dest: "{{ ansible_env.HOME }}/.config/ranger/"
+    dest: "{{ home.stdout }}/.config/ranger/"
     mode: 0644
   with_items:
     - ranger/commands.py

@@ -17,10 +17,15 @@
     state: present
   tags: install_packages
 
+- name: Get home directory
+  shell: echo $HOME
+  changed_when: false
+  register: home
+
 - name: Ensure common dotfiles are present
   copy:
     src: "{{ item }}"
-    dest: "{{ ansible_env.HOME }}/{{ item }}"
+    dest: "{{ home.stdout }}/{{ item }}"
     mode: 0644
   with_items:
     - .ackrc

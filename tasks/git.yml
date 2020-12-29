@@ -1,7 +1,7 @@
 ---
 - name: Fetch existing .gitconfig
   fetch:
-    src: "{{ ansible_env.HOME }}/.gitconfig"
+    src: "{{ home.stdout }}/.gitconfig"
     dest: /tmp
     fail_on_missing: false
   changed_when: false
@@ -20,11 +20,11 @@
 - name: Ensure .gitconfig is present
   template:
     src: .gitconfig
-    dest: "{{ ansible_env.HOME }}/.gitconfig"
+    dest: "{{ home.stdout }}/.gitconfig"
     mode: 0644
 
 - name: Ensure .gitignore is present
   copy:
     src: gitignore
-    dest: "{{ ansible_env.HOME }}/.gitignore"
+    dest: "{{ home.stdout }}/.gitignore"
     mode: 0644
