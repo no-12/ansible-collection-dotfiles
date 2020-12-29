@@ -8,7 +8,10 @@
       - curl
       - fzf
       - git
+      - htop
+      - ranger
       - tree
+      - vim
       - zsh
     state: present
   tags: install_packages
