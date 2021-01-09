@@ -1,3 +1,4 @@
 ---
+dotfiles_install_packages: false
 dotfiles_zsh_gradle_completion_version: v1.4.1
 dotfiles_zsh_install_external_extensions: true

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ROLE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-EXTRA_ARGS=(--skip-tags install_packages)
+EXTRA_ARGS=(--)
 
 print_usage() {
   echo "Usage:"
@@ -11,7 +11,7 @@ print_usage() {
 while getopts "hp" opt; do
   case ${opt} in
   h) print_usage && exit 0 ;;
-  p) [[ "$OSTYPE" == "darwin"* ]] && EXTRA_ARGS=(--) || EXTRA_ARGS=(--ask-become-pass) ;;
+  p) [[ "$OSTYPE" == "darwin"* ]] && EXTRA_ARGS=(--extra-vars "dotfiles_install_packages=true") || EXTRA_ARGS=(--extra-vars "dotfiles_install_packages=true" --ask-become-pass) ;;
   *) print_usage exit 1 ;;
   esac
 done

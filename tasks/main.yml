@@ -15,7 +15,7 @@
       - vim
       - zsh
     state: present
-  tags: install_packages
+  when: dotfiles_install_packages
 
 - name: Get home directory
   shell: echo $HOME
