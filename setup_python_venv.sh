@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
-if [[ ! -d venv ]]; then
-    python3 -m venv venv
+if [[ ! -d .python_venv ]]; then
+    python3 -m venv .python_venv
 fi
-source "venv/bin/activate"
+source ".python_venv/bin/activate"
 pip install --upgrade pip setuptools ansible ansible-lint docker molecule

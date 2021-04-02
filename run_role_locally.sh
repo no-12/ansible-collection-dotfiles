@@ -17,7 +17,7 @@ while getopts "hp" opt; do
 done
 shift $((OPTIND - 1))
 
-source "venv/bin/activate"
+source ".python_venv/bin/activate"
 
 ansible-playbook \
   -v \
