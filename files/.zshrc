@@ -286,3 +286,5 @@ if [[ -f /etc/profile.d/vte.sh && $VTE_VERSION ]]; then
   source /etc/profile.d/vte.sh
   __vte_osc7
 fi
+
+hash direnv &> /dev/null && eval "$(direnv hook zsh)" || true
