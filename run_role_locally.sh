@@ -17,8 +17,6 @@ while getopts "hp" opt; do
 done
 shift $((OPTIND - 1))
 
-source ".python_venv/bin/activate"
-
 ansible-playbook \
   -v \
   --connection local \
