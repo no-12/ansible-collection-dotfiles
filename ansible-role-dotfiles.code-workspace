@@ -5,12 +5,6 @@
 		}
 	],
 	"settings": {
-		"files.associations": {
-			"*.yml": "ansible"
-		},
-		"shellcheck.customArgs": [
-			"-x"
-		],
 		"editor.tabSize": 2,
 	}
 }
