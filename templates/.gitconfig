@@ -1,3 +1,10 @@
+[core]
+        editor = vim
+        excludesFile = ~/.gitignore
+[init]
+        defaultBranch = main
+[pull]
+        rebase = true
 [user]
 {% if dotfiles_git_user_name is defined %}
         name = {{ dotfiles_git_user_name }}
@@ -5,11 +12,6 @@
 {% if dotfiles_git_user_email is defined %}
         email = {{ dotfiles_git_user_email }}
 {% endif %}
-[core]
-        editor = vim
-        excludesFile = ~/.gitignore
-[pull]
-        rebase = true
 [alias]
         a = add
         aa = add --all
