@@ -26,6 +26,10 @@ white='\e[0;37m'
 WHITE='\e[1;37m'
 NC='\e[0m'
 
+{% if ansible_system == 'Darwin' %}
+OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+{% endif %}
+
 
 ################################
 # zsh config
@@ -36,7 +40,8 @@ autoload -Uz \
   down-line-or-beginning-search \
   run-help \
   up-line-or-beginning-search \
-  vcs_info
+  vcs_info \
+  add-zsh-hook
 
 compinit
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
@@ -76,6 +81,50 @@ setopt \
   pushd_to_home \
   share_history
 
+_vbe_vcs_info() {
+    cd -q $1
+    vcs_info
+    print ${vcs_info_msg_0_}
+}
+
+source $HOME/async.zsh
+async_init
+async_start_worker vcs_info
+async_register_callback vcs_info _vbe_vcs_info_done
+
+_vbe_vcs_info_done() {
+    local stdout=$3
+    vcs_info_msg_0_=$stdout
+
+      PS1=""
+
+  if [[ "$EUID" -eq 0 || "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+    PS1+="%(!.%K{red} %n@%m %F{red}.%K{black} %n@%m %F{black})%K{green}%k"
+  fi
+
+  PS1+="%F{black}%K{green} %~ %f%k"
+  local previous_bg_color=green
+
+  if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; then
+    PS1+="%F{$previous_bg_color}%K{yellow}%F{black}  ${vcs_info_msg_0_} %f%k"
+    previous_bg_color=yellow
+  fi
+
+  if [ ! -z $VIRTUAL_ENV ]; then
+    PS1+="%F{$previous_bg_color}%K{blue}%f  $(basename $VIRTUAL_ENV) %k"
+    previous_bg_color=blue
+  fi
+
+  PS1+="%F{$previous_bg_color}%k%f"
+  PS1+=$'\n%(?.%F{green}.%F{red})%(!.#.❯)%f '
+
+    zle reset-prompt
+}
+
+_vbe_vcs_precmd() {
+    async_flush_jobs vcs_info
+    async_job vcs_info _vbe_vcs_info $PWD
+}
 
 ################################
 # Functions
@@ -121,14 +170,14 @@ cdParent() {
 }
 
 cdRecent() {
-  if [[ -z $BUFFER ]] && [[ ${#$(dirs)} -gt 1 ]]; then
+  if [[ -z $BUFFER ]] && [[ {% raw %}${#$(dirs)[@]}{% endraw %} -gt 1 ]]; then
     pushd -
     zle accept-line
   fi
 }
 
 cdUndo() {
-  if [[ -z $BUFFER ]] && [[ ${#$(dirs)} -gt 1 ]]; then
+  if [[ -z $BUFFER ]] && [[ {% raw %}${#$(dirs)[@]}{% endraw %} -gt 1 ]]; then
     popd
     zle accept-line
   fi
@@ -148,10 +197,11 @@ cdUndo() {
 }
 
 precmd() {
+  async_flush_jobs vcs_info
+  async_job vcs_info _vbe_vcs_info $PWD
+
   # set terminal window title
   print -Pn "\e]0;[%n@%m]: %~\a"
-
-  vcs_info
 
   PS1=""
 
@@ -249,7 +299,6 @@ fpath=("${HOME}/.zsh/gradle-completion" $fpath)
 (( ${+aliases[run-help]} )) && unalias run-help
 
 alias ackn='ack --nopager'
-alias cp='cp -v'
 alias d='dirs -v'
 alias g='git'
 alias gradle=gradle-or-gradlew
@@ -260,31 +309,32 @@ alias history='fc -Dil'
 alias l='ls -ahl'
 alias ln='ln -v'
 alias md='mkdir -pv'
-alias mv='mv -v'
 alias rd='rmdir'
-alias rm='rm -v'
 alias vi='vim'
 
-case "$OSTYPE" in
-  darwin*)
-    alias ls='ls -G'
-  ;;
-  linux*)
-    alias ls='ls --color=auto'
-  ;;
-esac
-
+{% if ansible_system == 'Darwin' %}
+alias ls='ls -G'
+{% else %}
+alias ls='ls --color=auto'
+{% endif %}
 
 ################################
 # Source other scripts
 ################################
 
-[ -f "$HOME/.fzfrc" ] && source "$HOME/.fzfrc"
+[[ -f "$HOME/.fzfrc" ]] && source "$HOME/.fzfrc"
+
+[[ -f "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]] && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+[[ -f "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" ]] && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 
 # termite: enable ctrl-shift-t to open terminal in the current directory
 if [[ -f /etc/profile.d/vte.sh && $VTE_VERSION ]]; then
   source /etc/profile.d/vte.sh
   __vte_osc7
 fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 hash direnv &> /dev/null && eval "$(direnv hook zsh)" || true
