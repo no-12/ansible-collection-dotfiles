@@ -1,0 +1,21 @@
+alacritty_colors:
+  foreground: "#f9f9f9"
+  background: "#272822"
+  black: "#000000"
+  red: "#e92f2f"
+  green: "#0ed839"
+  yellow: "#dddd13"
+  blue: "#01a0e4"
+  magenta: "#f996e2"
+  cyan: "#23edda"
+  white: "#ababab"
+  bright_black: "#343434"
+  bright_red: "#e92f2f"
+  bright_green: "#0ed839"
+  bright_yellow: "#dddd13"
+  bright_blue: "#01a0e4"
+  bright_magenta: "#f996e2"
+  bright_cyan: "#23edda"
+  bright_white: "#f9f9f9"
+alacritty_font: JetBrainsMono Nerd Font Mono
+alacritty_font_size: 11

@@ -1,0 +1,6 @@
+---
+- name: Ensure config is present
+  template:
+    src: alacritty.yml.j2
+    dest: "{{ ansible_env.HOME }}/.alacritty.yml"
+    mode: 0644
