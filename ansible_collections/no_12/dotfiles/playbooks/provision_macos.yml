@@ -1,0 +1,28 @@
+---
+- hosts: all
+  roles:
+    - role: no_12.dotfiles.dotfiles
+      dotfiles_install_packages: true
+    - role: no_12.dotfiles.alacritty
+      alacritty_font_size: 14
+
+  tasks:
+    - name: Ensure cask-fonts homebrew repository is present
+      community.general.homebrew_tap:
+        name: homebrew/cask-fonts
+        state: present
+
+    - name: Ensure homebrew packages are present
+      community.general.homebrew:
+        name:
+          - direnv
+        state: present
+
+    - name: Ensure homebrew cask packages are present
+      community.general.homebrew_cask:
+        name:
+          - alacritty
+          - docker
+          - font-jetbrains-mono-nerd-font
+          - karabiner-elements
+        state: present
