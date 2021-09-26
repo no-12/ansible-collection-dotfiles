@@ -1,6 +1,7 @@
 ---
 - hosts: all
   roles:
+    - role: no_12.dotfiles.tmux
     - role: no_12.dotfiles.dotfiles
       dotfiles_install_packages: true
     - role: no_12.dotfiles.alacritty
@@ -24,5 +25,4 @@
           - alacritty
           - docker
           - font-jetbrains-mono-nerd-font
-          - karabiner-elements
         state: present
