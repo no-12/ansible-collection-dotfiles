@@ -1,0 +1,3 @@
+roles/dotfiles/files/ranger/commands.py future-import-boilerplate
+roles/dotfiles/files/ranger/commands.py metaclass-boilerplate
+roles/dotfiles/files/ranger/commands.py pylint:disallowed-name

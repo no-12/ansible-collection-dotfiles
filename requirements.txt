@@ -2,3 +2,6 @@ ansible
 ansible-lint
 docker
 molecule
+pycodestyle
+pylint
+yamllint
