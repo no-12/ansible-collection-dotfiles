@@ -5,7 +5,7 @@
     - role: no_12.dotfiles.dotfiles
       dotfiles_install_packages: true
     - role: no_12.dotfiles.alacritty
-      alacritty_font_size: 14
+      alacritty_font_size: 18
 
   tasks:
     - name: Ensure cask-fonts homebrew repository is present
