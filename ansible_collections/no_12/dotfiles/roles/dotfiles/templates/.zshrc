@@ -27,7 +27,7 @@ WHITE='\e[1;37m'
 NC='\e[0m'
 
 {% if ansible_system == 'Darwin' %}
-OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 {% endif %}
 
 
