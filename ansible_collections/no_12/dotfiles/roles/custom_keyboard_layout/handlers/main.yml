@@ -1,0 +1,5 @@
+---
+- name: restart macos custom keyboard_layout service
+  community.general.launchd:
+    name: org.custom.keyboard_layout
+    state: restarted
