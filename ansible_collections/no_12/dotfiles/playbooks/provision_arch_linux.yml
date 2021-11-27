@@ -1,0 +1,29 @@
+---
+- hosts: all
+  pre_tasks:
+    - import_tasks: tasks/arch_linux/paru.yml
+
+    - name: Ensure packages are present
+      become: true
+      community.general.pacman:
+        name:
+          - alacritty
+          - tmux
+        state: present
+
+    - name: Ensure AUR packages are pesent
+      include_tasks: tasks/arch_linux/aur_package.yml
+      loop:
+        - direnv
+        - nerd-fonts-jetbrains-mono
+        - visual-studio-code-bin
+      loop_control:
+        loop_var: aur_package_name
+
+  roles:
+    - role: no_12.dotfiles.custom_keyboard_layout
+    - role: no_12.dotfiles.tmux
+    - role: no_12.dotfiles.dotfiles
+      dotfiles_install_packages: true
+    - role: no_12.dotfiles.alacritty
+      alacritty_font_size: 12

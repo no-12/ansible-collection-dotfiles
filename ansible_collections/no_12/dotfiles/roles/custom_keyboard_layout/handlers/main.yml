@@ -1,4 +1,8 @@
 ---
+- name: reconfig xkb custom keyboard layout
+  ansible.builtin.script:
+    cmd: "{{ ansible_env.HOME }}/.custom_keyboard_layout.sh"
+
 - name: restart macos custom keyboard_layout service
   community.general.launchd:
     name: org.custom.keyboard_layout

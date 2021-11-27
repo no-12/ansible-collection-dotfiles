@@ -18,6 +18,7 @@
       community.general.homebrew:
         name:
           - direnv
+          - tmux
         state: present
 
     - name: Ensure homebrew cask packages are present

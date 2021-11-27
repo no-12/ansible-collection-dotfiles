@@ -1,0 +1,4 @@
+partial modifier_keys
+xkb_symbols "capsf12" {
+    replace key <CAPS>  { [ F12 ] };
+};

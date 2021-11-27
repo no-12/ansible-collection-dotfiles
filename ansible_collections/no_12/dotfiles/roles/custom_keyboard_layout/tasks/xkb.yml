@@ -1,0 +1,30 @@
+- name: Ensure custom keyboard mapping script is present
+  ansible.builtin.copy:
+    src: xkb/custom_keyboard_layout.sh
+    dest: "{{ ansible_env.HOME }}/.custom_keyboard_layout.sh"
+    mode: 0744
+  notify: reconfig xkb custom keyboard layout
+
+- name: Ensure local xkb dirs are present
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - .xkb
+    - .xkb/keymap
+    - .xkb/symbols
+
+- name: Ensure custom_keymap is present in local xkb keymap
+  ansible.builtin.copy:
+    src: xkb/custom_keymap
+    dest: "{{ ansible_env.HOME }}/.xkb/keymap/custom_keymap"
+    mode: 0644
+  notify: reconfig xkb custom keyboard layout
+
+- name: Ensure custom_symbols is present in local xkb symbols
+  ansible.builtin.copy:
+    src: xkb/custom_symbols
+    dest: "{{ ansible_env.HOME }}/.xkb/symbols/custom_symbols"
+    mode: 0644
+  notify: reconfig xkb custom keyboard layout

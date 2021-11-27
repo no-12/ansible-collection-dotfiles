@@ -1,11 +1,4 @@
 ---
-- name: Ensure tmux packages are present
-  become: "{{ ansible_pkg_mgr != 'homebrew' }}"
-  package:
-    name:
-      - tmux
-    state: present
-
 - name: Ensure Tmux Plugin Manager is present
   git:
     repo: https://github.com/tmux-plugins/tpm

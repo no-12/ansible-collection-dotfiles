@@ -1,0 +1,19 @@
+- name: Ensure custom keyboard mapping script is present
+  ansible.builtin.copy:
+    src: macos/custom_keyboard_layout.sh
+    dest: "{{ ansible_env.HOME }}/.custom_keyboard_layout.sh"
+    mode: 0744
+  notify: restart macos custom keyboard_layout service
+
+- name: Ensure custom keyboard mapping script launch agent is present
+  ansible.builtin.copy:
+    src: macos/org.custom.keyboard_layout.plist
+    dest: "{{ ansible_env.HOME }}/Library/LaunchAgents/org.custom.keyboard_layout.plist"
+    mode: 0644
+  notify: restart macos custom keyboard_layout service
+
+- name: Ensure custom keyboard layout is enabled
+  community.general.launchd:
+    name: org.custom.keyboard_layout
+    enabled: true
+    state: started
