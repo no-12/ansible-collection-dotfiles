@@ -1,2 +1,18 @@
 vscode_user_config_directory: "{{ ansible_env.HOME }}/{{ 'Library/Application Support/Code/User' if ansible_os_family == 'Darwin' else '.config/Code/User' }}"
 vscode_user_config_file: "{{ vscode_user_config_directory }}/settings.json"
+vscode_common_extensions:
+  - christian-kohler.path-intellisense
+  - donjayamanne.githistory
+  - eamodio.gitlens
+  - esbenp.prettier-vscode
+  - Gruntfuggly.todo-tree
+  - ms-azuretools.vscode-docker
+  - ms-python.python
+  - ms-python.vscode-pylance
+  - redhat.ansible
+  - redhat.vscode-yaml
+  - sleistner.vscode-fileutils
+  - streetsidesoftware.code-spell-checker
+  - streetsidesoftware.code-spell-checker-german
+  - timonwong.shellcheck
+vscode_extensions: "{{ vscode_common_extensions | union(vscode_extra_extensions) }}"

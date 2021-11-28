@@ -19,20 +19,4 @@
 - name: Ensure extensions are present
   ansible.builtin.command: "code --install-extension {{ item }}"
   when: item not in code_installed_extensions.stdout_lines
-  with_items:
-    - christian-kohler.path-intellisense
-    - donjayamanne.githistory
-    - eamodio.gitlens
-    - esbenp.prettier-vscode
-    - gruntfuggly.todo-tree
-    - ms-azuretools.vscode-docker
-    - ms-python.python
-    - ms-python.vscode-pylance
-    - redhat.ansible
-    - redhat.vscode-yaml
-    - sleistner.vscode-fileutils
-    - streetsidesoftware.code-spell-checker
-    - streetsidesoftware.code-spell-checker-german
-    - timonwong.shellcheck
-    # - ms-vscode.powershell
-    # - gitlab.gitlab-workflow
+  with_items: "{{ vscode_extensions }}"
