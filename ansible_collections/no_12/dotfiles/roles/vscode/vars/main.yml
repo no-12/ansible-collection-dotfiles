@@ -1,0 +1,2 @@
+vscode_user_config_directory: "{{ ansible_env.HOME }}/{{ 'Library/Application Support/Code/User' if ansible_os_family == 'Darwin' else '.config/Code/User' }}"
+vscode_user_config_file: "{{ vscode_user_config_directory }}/settings.json"
