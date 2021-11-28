@@ -1,4 +1,17 @@
 ---
+- name: Ensure alacritty Linux package is present
+  become: true
+  ansible.builtin.package:
+    name: alacritty
+    state: present
+  when: is_linux
+
+- name: Ensure alacritty MacOS package is present
+  community.general.homebrew_cask:
+    name: alacritty
+    state: present
+  when: is_macos
+
 - name: Ensure config is present
   template:
     src: alacritty.yml.j2

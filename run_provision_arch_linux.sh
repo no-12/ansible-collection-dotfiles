@@ -6,6 +6,6 @@ export ANSIBLE_COLLECTIONS_PATHS="$DIR":~/.ansible/collections:/usr/share/ansibl
 ansible-playbook \
   -v \
   --connection local \
-  --inventory localhost, \
+  --inventory "$(hostname)", \
   --ask-become-pass \
   no_12.dotfiles.provision_arch_linux

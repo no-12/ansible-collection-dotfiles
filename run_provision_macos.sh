@@ -6,5 +6,5 @@ export ANSIBLE_COLLECTIONS_PATHS="$DIR":~/.ansible/collections:/usr/share/ansibl
 ansible-playbook \
   -v \
   --connection local \
-  --inventory localhost, \
+  --inventory "$(hostname)", \
   no_12.dotfiles.provision_macos
