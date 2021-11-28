@@ -3,6 +3,4 @@ ansible_python_interpreter: python3
 is_linux: false
 is_macos: false
 editor_font: JetBrainsMono Nerd Font Mono
-editor_font_size: 12
 terminal_font: JetBrainsMono Nerd Font Mono
-terminal_font_size: 12

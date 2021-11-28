@@ -1,5 +1,6 @@
 is_linux: true
-editor_font_size: 15
-terminal_font_size: 15
+alacritty_font_size: 14
+vscode_editor_font_size: 15
+vscode_terminal_font_size: 15
 vscode_extra_extensions:
   - vsciot-vscode.vscode-arduino

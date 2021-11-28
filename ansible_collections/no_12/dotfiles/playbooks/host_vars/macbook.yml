@@ -1,6 +1,7 @@
 is_macos: true
-editor_font_size: 18
-terminal_font_size: 18
+alacritty_font_size: 18
+vscode_editor_font_size: 14
+vscode_terminal_font_size: 14
 vscode_extra_extensions:
   - gitlab.gitlab-workflow
   - ms-vscode.powershell

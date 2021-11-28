@@ -17,3 +17,4 @@ alacritty_colors:
   bright_magenta: "#f996e2"
   bright_cyan: "#23edda"
   bright_white: "#f9f9f9"
+alacritty_font_size: 12
