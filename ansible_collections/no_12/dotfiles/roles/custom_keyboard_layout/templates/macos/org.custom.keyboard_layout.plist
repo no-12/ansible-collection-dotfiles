@@ -4,11 +4,9 @@
     <dict>
         <key>Label</key>
         <string>org.custom.keyboard_layout</string>
-        <key>ProgramArguments</key>
-        <array>
-            <string>${HOME}/.custom_keyboard_layout.sh</string>
-        </array>
-        <key>KeepAlive</key>
-        <false/>
+        <key>Program</key>
+        <string>{{ ansible_env.HOME }}/.custom_keyboard_layout.sh</string>
+        <key>RunAtLoad</key>
+        <true/>
     </dict>
 </plist>
