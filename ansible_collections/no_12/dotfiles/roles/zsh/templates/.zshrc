@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 ################################
 # Environment variables
 ################################
@@ -39,9 +46,7 @@ autoload -Uz \
   compinit \
   down-line-or-beginning-search \
   run-help \
-  up-line-or-beginning-search \
-  vcs_info \
-  add-zsh-hook
+  up-line-or-beginning-search
 
 compinit
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
@@ -49,15 +54,6 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' special-dirs true
 zstyle ':completion:*' use-cache yes
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
-
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' formats "%b %c%u"
-zstyle ':vcs_info:*' actionformats "%b %F{red}(%a)%f %c%u"
-zstyle ':vcs_info:*' get-revision true
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' stagedstr '+'
-zstyle ':vcs_info:*' unstagedstr '±'
-zstyle ':vcs_info:git*+set-message:*' hooks git-untracked git-stashed
 
 unsetopt \
   flowcontrol \
@@ -80,51 +76,6 @@ setopt \
   pushd_silent \
   pushd_to_home \
   share_history
-
-_vbe_vcs_info() {
-    cd -q $1
-    vcs_info
-    print ${vcs_info_msg_0_}
-}
-
-source $HOME/async.zsh
-async_init
-async_start_worker vcs_info
-async_register_callback vcs_info _vbe_vcs_info_done
-
-_vbe_vcs_info_done() {
-    local stdout=$3
-    vcs_info_msg_0_=$stdout
-
-      PS1=""
-
-  if [[ "$EUID" -eq 0 || "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-    PS1+="%(!.%K{red} %n@%m %F{red}.%K{black} %n@%m %F{black})%K{green}%k"
-  fi
-
-  PS1+="%F{black}%K{green} %~ %f%k"
-  local previous_bg_color=green
-
-  if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; then
-    PS1+="%F{$previous_bg_color}%K{yellow}%F{black}  ${vcs_info_msg_0_} %f%k"
-    previous_bg_color=yellow
-  fi
-
-  if [ ! -z $VIRTUAL_ENV ]; then
-    PS1+="%F{$previous_bg_color}%K{blue}%f  $(basename $VIRTUAL_ENV) %k"
-    previous_bg_color=blue
-  fi
-
-  PS1+="%F{$previous_bg_color}%k%f"
-  PS1+=$'\n%(?.%F{green}.%F{red})%(!.#.❯)%f '
-
-    zle reset-prompt
-}
-
-_vbe_vcs_precmd() {
-    async_flush_jobs vcs_info
-    async_job vcs_info _vbe_vcs_info $PWD
-}
 
 ################################
 # Functions
@@ -181,49 +132,6 @@ cdUndo() {
     popd
     zle accept-line
   fi
-}
-
-+vi-git-untracked(){
-  if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
-    git status --porcelain | grep '??' &> /dev/null ; then
-    hook_com[unstaged]+='^'
-  fi
-}
-
-+vi-git-stashed() {
-  if git rev-parse --verify refs/stash &>/dev/null ; then
-    hook_com[unstaged]+='*'
-  fi
-}
-
-precmd() {
-  async_flush_jobs vcs_info
-  async_job vcs_info _vbe_vcs_info $PWD
-
-  # set terminal window title
-  print -Pn "\e]0;[%n@%m]: %~\a"
-
-  PS1=""
-
-  if [[ "$EUID" -eq 0 || "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-    PS1+="%(!.%K{red} %n@%m %F{red}.%K{black} %n@%m %F{black})%K{green}%k"
-  fi
-
-  PS1+="%F{black}%K{green} %~ %f%k"
-  local previous_bg_color=green
-
-  if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; then
-    PS1+="%F{$previous_bg_color}%K{yellow}%F{black}  ${vcs_info_msg_0_} %f%k"
-    previous_bg_color=yellow
-  fi
-
-  if [ ! -z $VIRTUAL_ENV ]; then
-    PS1+="%F{$previous_bg_color}%K{blue}%f  $(basename $VIRTUAL_ENV) %k"
-    previous_bg_color=blue
-  fi
-
-  PS1+="%F{$previous_bg_color}%k%f"
-  PS1+=$'\n%(?.%F{green}.%F{red})%(!.#.❯)%f '
 }
 
 preexec() {
@@ -321,6 +229,10 @@ alias ls='ls --color=auto'
 ################################
 # Source other scripts
 ################################
+
+source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [[ -f "$HOME/.fzfrc" ]] && source "$HOME/.fzfrc"
 
