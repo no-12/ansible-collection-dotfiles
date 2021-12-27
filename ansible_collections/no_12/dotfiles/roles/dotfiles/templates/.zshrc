@@ -332,5 +332,3 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 hash direnv &> /dev/null && eval "$(direnv hook zsh)" || true
-
-[[ ! $TERM =~ screen ]] && [[ ! $TERM_PROGRAM =~ vscode ]] && exec tmux new -A -s main
