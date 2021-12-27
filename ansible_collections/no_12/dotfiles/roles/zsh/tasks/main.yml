@@ -1,7 +1,14 @@
 ---
+- name: Ensure zsh package is present
+  become: "{{ true if ansible_pkg_mgr != 'homebrew' else false }}"
+  package:
+    name:
+      - zsh
+    state: present
+
 - name: Ensure .zsh directory is present
   file:
-    path: "{{ home.stdout }}/.zsh"
+    path: "{{ ansible_env.HOME }}/.zsh"
     state: directory
     mode: 0755
 
@@ -10,13 +17,12 @@
   loop:
     - repo: https://github.com/gradle/gradle-completion.git
       dest: gradle-completion
-      version: "{{ dotfiles_zsh_gradle_completion_version }}"
+      version: "{{ zsh_gradle_completion_version }}"
   loop_control:
     loop_var: extension
-  when: dotfiles_zsh_install_external_extensions
 
 - name: Ensure .zshrc is present
   template:
     src: .zshrc
-    dest: "{{ home.stdout }}/.zshrc"
+    dest: "{{ ansible_env.HOME }}/.zshrc"
     mode: 0644

@@ -31,9 +31,6 @@
     - .ackrc
     - .fzfrc
 
-- name: Ensure zsh dotfiles are present
-  include_tasks: zsh.yml
-
 - name: Ensure git dotfiles are present
   include_tasks: git.yml
 

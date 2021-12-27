@@ -2,6 +2,6 @@
 - name: "Ensure zsh extension {{ extension.dest }} is present"
   git:
     repo: "{{ extension.repo }}"
-    dest: "{{ home.stdout }}/.zsh/{{ extension.dest }}"
+    dest: "{{ ansible_env.HOME }}/.zsh/{{ extension.dest }}"
     depth: 1
     version: "{{ extension.version }}"
