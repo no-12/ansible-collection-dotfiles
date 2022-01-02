@@ -9,4 +9,5 @@ ansible-playbook \
   -vv \
   --connection local \
   --inventory "$1", \
+  --ask-become-pass \
   no_12.dotfiles.provision
