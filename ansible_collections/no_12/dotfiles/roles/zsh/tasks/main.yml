@@ -1,19 +1,19 @@
 ---
 - name: Ensure zsh package is present
   become: "{{ true if ansible_pkg_mgr != 'homebrew' else false }}"
-  package:
+  ansible.builtin.package:
     name:
       - zsh
     state: present
 
 - name: Ensure .zsh directory is present
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.zsh"
     state: directory
     mode: 0755
 
 - name: Ensure zsh extensions are present
-  include_tasks: zsh_extensions.yml
+  ansible.builtin.include_tasks: zsh_extensions.yml
   loop:
     - repo: https://github.com/gradle/gradle-completion.git
       dest: gradle-completion
@@ -25,7 +25,13 @@
     loop_var: extension
 
 - name: Ensure .zshrc is present
-  template:
+  ansible.builtin.template:
     src: .zshrc
     dest: "{{ ansible_env.HOME }}/.zshrc"
+    mode: 0644
+
+- name: Ensure .p10k.zsh is present
+  ansible.builtin.copy:
+    src: .p10k.zsh
+    dest: "{{ ansible_env.HOME }}/.p10k.zsh"
     mode: 0644
