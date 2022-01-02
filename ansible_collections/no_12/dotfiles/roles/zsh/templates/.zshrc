@@ -197,7 +197,7 @@ bindkey "${key[PageUp]}" up-line-or-history
 bindkey "${key[Shift-Tab]}" reverse-menu-complete
 bindkey "${key[Up]}" up-line-or-beginning-search
 
-fpath=("${HOME}/.zsh/gradle-completion" $fpath)
+fpath=("{{ zsh_extensions_dir }}/gradle-completion" $fpath)
 
 
 ################################
@@ -230,11 +230,9 @@ alias ls='ls --color=auto'
 # Source other scripts
 ################################
 
-source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+source "{{ zsh_extensions_dir }}/powerlevel10k/powerlevel10k.zsh-theme"
 
-[[ -f "$HOME/.fzfrc" ]] && source "$HOME/.fzfrc"
+for extra_rc in {{ zsh_extra_rc_dir }}/*(.); do source "$extra_rc"; done
 
 [[ -f "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]] && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 [[ -f "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" ]] && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"

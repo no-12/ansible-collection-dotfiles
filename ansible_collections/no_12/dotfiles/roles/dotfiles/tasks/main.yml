@@ -7,7 +7,6 @@
       - atool
       - bat
       - curl
-      - fzf
       - git
       - htop
       - ranger
@@ -29,7 +28,6 @@
     mode: 0644
   with_items:
     - .ackrc
-    - .fzfrc
 
 - name: Ensure git dotfiles are present
   include_tasks: git.yml

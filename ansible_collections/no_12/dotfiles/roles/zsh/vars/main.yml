@@ -1,0 +1,2 @@
+---
+zsh_extensions_dir: "{{ ansible_env.HOME }}/.zsh_extensions"

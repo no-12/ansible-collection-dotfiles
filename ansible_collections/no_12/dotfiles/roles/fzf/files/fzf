@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 export FZF_DEFAULT_OPTS="
 --ansi
 --bind='alt-s:toggle-sort'
@@ -57,19 +59,14 @@ gb() {
     _git_branch_fzf "$@" | xargs -I % git checkout %
 }
 
-fzf_extra_paths=(
-    # archlinux
-    /usr/share/fzf/completion.zsh
-    /usr/share/fzf/key-bindings.zsh
-    # debian
-    /usr/share/doc/fzf/examples/key-bindings.zsh
-    # brew
-    /usr/local/opt/fzf/shell/key-bindings.zsh
-    /usr/local/opt/fzf/shell/completion.zsh
-)
+# archlinux
+# shellcheck disable=SC1094 source=/dev/null
+[[ -s "/usr/share/fzf/completion.zsh" ]] && source "/usr/share/fzf/completion.zsh"
+# shellcheck disable=SC1094 source=/dev/null
+[[ -s "/usr/share/fzf/key-bindings.zsh" ]] && source "/usr/share/fzf/key-bindings.zsh"
 
-for fzf_extra_path in "${fzf_extra_paths[@]}"; do
-    if [[ -f "$fzf_extra_path" ]]; then
-        source "$fzf_extra_path"
-    fi
-done
+# brew
+# shellcheck disable=SC1094 source=/dev/null
+[[ -s "/usr/local/opt/fzf/shell/key-bindings.zsh" ]] && source "/usr/local/opt/fzf/shell/key-bindings.zsh"
+# shellcheck disable=SC1094 source=/dev/null
+[[ -s "/usr/local/opt/fzf/shell/completion.zsh" ]] && source "/usr/local/opt/fzf/shell/completion.zsh"

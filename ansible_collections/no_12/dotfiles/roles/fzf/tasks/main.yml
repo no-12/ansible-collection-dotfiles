@@ -1,0 +1,13 @@
+---
+- name: Ensure fzf package is present
+  become: "{{ true if ansible_pkg_mgr != 'homebrew' else false }}"
+  ansible.builtin.package:
+    name:
+      - fzf
+    state: present
+
+- name: Ensure fzf rc file is present
+  ansible.builtin.copy:
+    src: fzf
+    dest: "{{ zsh_extra_rc_dir }}/fzf"
+    mode: 0644
