@@ -5,14 +5,9 @@
     name:
       - ack
       - atool
-      - bat
-      - curl
       - git
-      - htop
       - ranger
       - tree
-      - vim
-      - zsh
     state: present
   when: dotfiles_install_packages
 

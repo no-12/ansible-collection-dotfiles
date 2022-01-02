@@ -13,6 +13,16 @@
         loop_var: aur_package_name
 
 - hosts: all
+  pre_tasks:
+    - name: Ensure common packages are present
+      become: "{{ true if ansible_pkg_mgr != 'homebrew' else false }}"
+      package:
+        name:
+          - bat
+          - curl
+          - htop
+          - vim
+        state: present
   roles:
     - role: no_12.dotfiles.custom_keyboard_layout
     - role: no_12.dotfiles.zsh
