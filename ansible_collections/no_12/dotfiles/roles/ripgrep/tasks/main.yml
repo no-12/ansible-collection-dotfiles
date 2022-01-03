@@ -1,0 +1,19 @@
+---
+- name: Ensure ripgrep package is present
+  become: "{{ true if ansible_pkg_mgr != 'homebrew' else false }}"
+  ansible.builtin.package:
+    name:
+      - ripgrep
+    state: present
+
+- name: Ensure ripgrep environment variables are sourced
+  ansible.builtin.copy:
+    src: ripgrep_env_vars
+    dest: "{{ zsh_extra_rc_dir }}/ripgrep_env_vars"
+    mode: 0644
+
+- name: Ensure .ripgreprc file is present
+  ansible.builtin.copy:
+    src: .ripgreprc
+    dest: "{{ ansible_env.HOME }}/.ripgreprc"
+    mode: 0644

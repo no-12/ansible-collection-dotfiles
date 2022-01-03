@@ -1,0 +1,5 @@
+--pretty
+--smart-case
+
+--type-add
+gradle:*.gradle.kts, gradle.properties

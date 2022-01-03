@@ -27,6 +27,7 @@
     - role: no_12.dotfiles.custom_keyboard_layout
     - role: no_12.dotfiles.zsh
     - role: no_12.dotfiles.fzf
+    - role: no_12.dotfiles.ripgrep
     - role: no_12.dotfiles.git
     - role: no_12.dotfiles.alacritty
     - role: no_12.dotfiles.vscode
