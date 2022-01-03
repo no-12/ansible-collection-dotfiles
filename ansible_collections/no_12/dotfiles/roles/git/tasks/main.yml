@@ -1,0 +1,37 @@
+---
+- name: Ensure git package is present
+  become: "{{ true if ansible_pkg_mgr != 'homebrew' else false }}"
+  ansible.builtin.package:
+    name:
+      - git
+    state: present
+
+- name: Fetch existing .gitconfig
+  ansible.builtin.fetch:
+    src: "{{ ansible_env.HOME }}/.gitconfig"
+    dest: /tmp
+    fail_on_missing: false
+  changed_when: false
+  register: fetched_gitconfig
+
+- name: Parse git user.name
+  ansible.builtin.set_fact:
+    git_user_name: "{{ lookup('ini', 'name section=user file={{ fetched_gitconfig.dest }}') }}"
+  when: fetched_gitconfig.dest is defined and git_user_name is undefined
+
+- name: Parse git user.email
+  ansible.builtin.set_fact:
+    git_user_email: "{{ lookup('ini', 'email section=user file={{ fetched_gitconfig.dest }}') }}"
+  when: fetched_gitconfig.dest is defined and git_user_email is undefined
+
+- name: Ensure .gitconfig is present
+  ansible.builtin.template:
+    src: .gitconfig
+    dest: "{{ ansible_env.HOME }}/.gitconfig"
+    mode: 0644
+
+- name: Ensure .gitignore is present
+  ansible.builtin.template:
+    src: gitignore
+    dest: "{{ ansible_env.HOME }}/.gitignore"
+    mode: 0644
