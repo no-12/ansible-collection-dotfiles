@@ -1,8 +1,0 @@
---color
-
---pager=less -IR
-
---type-set=gradle:ext:gradle
---type-add=gradle:is:gradle.properties
---type-add=gradle:match:/^.*\.gradle\.kts$/
---type-set=ps:ext:ps1,psd1,psm1
