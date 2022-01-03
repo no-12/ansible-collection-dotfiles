@@ -6,8 +6,8 @@
       - fzf
     state: present
 
-- name: Ensure fzf rc file is present
+- name: Ensure .fzfrc file is present
   ansible.builtin.copy:
-    src: fzf
-    dest: "{{ zsh_extra_rc_dir }}/fzf"
+    src: .fzfrc
+    dest: "{{ ansible_env.HOME }}/.fzfrc"
     mode: 0644

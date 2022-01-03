@@ -226,13 +226,16 @@ alias ls='ls -G'
 alias ls='ls --color=auto'
 {% endif %}
 
-################################
-# Source other scripts
-################################
+####################################
+# Source and configure other scripts
+####################################
 
 source "{{ zsh_extensions_dir }}/powerlevel10k/powerlevel10k.zsh-theme"
+[[ -s "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
 
-for extra_rc in {{ zsh_extra_rc_dir }}/*(.); do source "$extra_rc"; done
+[[ -s "$HOME/.fzfrc" ]] && source "$HOME/.fzfrc"
+
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 [[ -f "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]] && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 [[ -f "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" ]] && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
