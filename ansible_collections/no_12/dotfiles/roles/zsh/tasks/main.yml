@@ -24,13 +24,16 @@
   loop_control:
     loop_var: extension
 
-- name: Ensure .zshrc is present
+- name: Ensure zsh dotfiles are present
   ansible.builtin.template:
-    src: .zshrc
-    dest: "{{ ansible_env.HOME }}/.zshrc"
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/{{ item }}"
     mode: 0644
+  with_items:
+    - .zshrc
+    - .zprofile
 
-- name: Ensure p10k.zsh is present
+- name: Ensure .p10k.zsh is present
   ansible.builtin.copy:
     src: .p10k.zsh
     dest: "{{ ansible_env.HOME }}/.p10k.zsh"

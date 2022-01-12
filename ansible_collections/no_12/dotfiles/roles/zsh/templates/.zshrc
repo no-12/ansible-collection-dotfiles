@@ -33,7 +33,7 @@ white='\e[0;37m'
 WHITE='\e[1;37m'
 NC='\e[0m'
 
-{% if ansible_system == 'Darwin' %}
+{% if is_macos %}
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 {% endif %}
 
@@ -220,7 +220,7 @@ alias md='mkdir -pv'
 alias rd='rmdir'
 alias vi='vim'
 
-{% if ansible_system == 'Darwin' %}
+{% if is_macos %}
 alias ls='ls -G'
 {% else %}
 alias ls='ls --color=auto'

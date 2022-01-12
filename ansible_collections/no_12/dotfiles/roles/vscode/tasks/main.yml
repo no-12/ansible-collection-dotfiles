@@ -22,11 +22,11 @@
     mode: 0600
 
 - name: List installed extensions
-  ansible.builtin.command: code --list-extensions
+  ansible.builtin.command: "{{ vscode_binary }} --list-extensions"
   changed_when: false
   register: code_installed_extensions
 
 - name: Ensure extensions are present
-  ansible.builtin.command: "code --install-extension {{ item }}"
+  ansible.builtin.command: "{{ vscode_binary }} --install-extension {{ item }}"
   when: item not in code_installed_extensions.stdout_lines
   with_items: "{{ vscode_extensions }}"
