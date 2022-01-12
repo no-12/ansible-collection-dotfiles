@@ -21,6 +21,7 @@
           - bat
           - curl
           - htop
+          - shellcheck
           - vim
         state: present
   roles:
