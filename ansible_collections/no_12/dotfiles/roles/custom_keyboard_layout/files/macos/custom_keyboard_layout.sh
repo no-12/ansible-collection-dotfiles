@@ -57,7 +57,7 @@ END
 hidutil property --matching "{\"ProductID\":0x0142}" property --set "$key_map_pc"
 
 # Builtin keyboard
-hidutil property --matching "{\"ProductID\":0x0340}" property --set "$key_map_apple"
+hidutil property --matching "{\"ProductID\":0x0342}" property --set "$key_map_apple"
 
 # Magic keyboard
 hidutil property --matching "{\"ProductID\":0x026c}" property --set "$key_map_apple"
