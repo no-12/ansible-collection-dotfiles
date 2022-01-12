@@ -49,7 +49,9 @@
     - name: Ensure homebrew cask packages are present
       community.general.homebrew_cask:
         name:
+          - firefox
           - font-jetbrains-mono-nerd-font
+          - keepassxc
         install_options:
           - "appdir={{ ansible_env.HOME }}/Applications"
         state: present
