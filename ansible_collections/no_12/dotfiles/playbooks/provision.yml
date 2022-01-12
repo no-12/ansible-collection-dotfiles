@@ -50,4 +50,6 @@
         name:
           - docker
           - font-jetbrains-mono-nerd-font
+        install_options:
+          - "appdir={{ ansible_env.HOME }}/Applications"
         state: present

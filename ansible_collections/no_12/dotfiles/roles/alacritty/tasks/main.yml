@@ -6,14 +6,23 @@
     state: present
   when: is_linux
 
-- name: Ensure alacritty MacOS package is present
-  community.general.homebrew_cask:
-    name: alacritty
-    state: present
+- block:
+    - name: Ensure alacritty MacOS package is present
+      community.general.homebrew_cask:
+        name: alacritty
+        install_options:
+          - "appdir={{ ansible_env.HOME }}/Applications"
+        state: present
+
+    - name: Ensure alacritty is not quarantined because the app is not signed with a valid key
+      community.general.xattr:
+        path: "{{ ansible_env.HOME }}/Applications/Alacritty.app"
+        key: com.apple.quarantine
+        state: absent
   when: is_macos
 
 - name: Ensure config is present
-  template:
+  ansible.builtin.template:
     src: alacritty.yml.j2
     dest: "{{ ansible_env.HOME }}/.alacritty.yml"
     mode: 0644
