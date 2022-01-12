@@ -15,10 +15,13 @@
         state: present
 
     - name: Ensure alacritty is not quarantined because the app is not signed with a valid key
-      community.general.xattr:
-        path: "{{ ansible_env.HOME }}/Applications/Alacritty.app"
-        key: com.apple.quarantine
-        state: absent
+      ansible.builtin.command:
+        cmd: "xattr -d com.apple.quarantine {{ ansible_env.HOME }}/Applications/Alacritty.app"
+      register: _result
+      changed_when: _result.rc == 0
+      failed_when: >
+        (_result.rc != 0) and
+        ("No such xattr: com.apple.quarantine" not in _result.stderr)
   when: is_macos
 
 - name: Ensure config is present
