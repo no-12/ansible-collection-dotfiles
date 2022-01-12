@@ -5,6 +5,12 @@
     mode: 0744
   notify: restart macos custom keyboard_layout service
 
+- name: Ensure user's LaunchAgents directory is present
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/Library/LaunchAgents"
+    state: directory
+    mode: 0700
+
 - name: Ensure custom keyboard mapping script launch agent is present
   ansible.builtin.template:
     src: macos/org.custom.keyboard_layout.plist
