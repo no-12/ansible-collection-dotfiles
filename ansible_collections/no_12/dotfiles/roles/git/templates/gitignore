@@ -1,5 +1,7 @@
 *[iI][gG][nN][oO][rR][eE][mM][eE]*
 
+.direnv/
+
 {% if ansible_system == 'Darwin' %}
 .DS_Store
 {% endif %}
