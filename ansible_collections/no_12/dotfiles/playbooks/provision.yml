@@ -48,7 +48,6 @@
     - name: Ensure homebrew cask packages are present
       community.general.homebrew_cask:
         name:
-          - docker
           - font-jetbrains-mono-nerd-font
         install_options:
           - "appdir={{ ansible_env.HOME }}/Applications"
