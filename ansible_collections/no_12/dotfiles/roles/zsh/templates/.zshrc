@@ -214,6 +214,7 @@ alias grep='grep --color=auto'
 alias h='history'
 alias help='run-help'
 alias history='fc -Dil'
+alias kc='HTTPS_PROXY=localhost:8888 kubectl'
 alias l='ls -ahl'
 alias ln='ln -v'
 alias md='mkdir -pv'
@@ -237,8 +238,10 @@ source "{{ zsh_extensions_dir }}/powerlevel10k/powerlevel10k.zsh-theme"
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
-[[ -f "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]] && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-[[ -f "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" ]] && source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+[[ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]] && source "$HOME/google-cloud-sdk/path.zsh.inc"
+[[ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]] && source "$HOME/google-cloud-sdk/completion.zsh.inc"
+
+hash kubectl &> /dev/null && source <(kubectl completion zsh)
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
