@@ -1,8 +1,4 @@
 ---
-- hosts: nopc
-  roles:
-    - role: no_12.dotfiles.paru
-
 - hosts: all
   pre_tasks:
     - name: Ensure common packages are present
@@ -16,6 +12,11 @@
           - shellcheck
           - vim
         state: present
+
+    - ansible.builtin.import_role:
+        name: no_12.dotfiles.paru
+      when: is_arch
+
   roles:
     - role: no_12.dotfiles.custom_keyboard_layout
     - role: no_12.dotfiles.nerd_fonts_jetbrains_mono
