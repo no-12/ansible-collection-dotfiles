@@ -1,9 +1,10 @@
 ---
-- name: Ensure git package is present
+- name: Ensure git packages are present
   become: "{{ true if ansible_pkg_mgr != 'homebrew' else false }}"
   ansible.builtin.package:
     name:
       - git
+      - git-delta
     state: present
 
 - name: Fetch existing .gitconfig
