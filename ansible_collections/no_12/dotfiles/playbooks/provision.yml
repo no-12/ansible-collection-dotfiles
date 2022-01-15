@@ -2,15 +2,10 @@
 - hosts: nopc
   roles:
     - role: no_12.dotfiles.paru
-  tasks:
-    - name: Ensure AUR packages are present
-      include_tasks: tasks/arch_linux/aur_package.yml
-      loop:
-        - direnv
-        - nerd-fonts-jetbrains-mono
-        - visual-studio-code-bin
-      loop_control:
-        loop_var: aur_package_name
+    - role: no_12.dotfiles.aur_package
+      aur_package_name: direnv
+    - role: no_12.dotfiles.aur_package
+      aur_package_name: nerd-fonts-jetbrains-mono
 
 - hosts: all
   pre_tasks:

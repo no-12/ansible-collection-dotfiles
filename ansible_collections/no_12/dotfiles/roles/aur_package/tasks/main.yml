@@ -1,14 +1,14 @@
 ---
 - name: "Check if '{{ aur_package_name }}' is present"
-  command:
+  ansible.builtin.command:
     cmd: "paru -Q {{ aur_package_name }}"
   changed_when: false
-  ignore_errors: yes
+  ignore_errors: true
   register: _aur_package_query
 
 - name: "Ensure '{{ aur_package_name }}' is present"
-  become: yes
+  become: true
   become_user: aur_builder
-  command:
+  ansible.builtin.command:
     cmd: "paru -S --noconfirm --needed {{ aur_package_name }}"
   when: _aur_package_query.rc == 1
