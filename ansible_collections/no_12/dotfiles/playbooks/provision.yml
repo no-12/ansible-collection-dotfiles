@@ -1,8 +1,8 @@
 ---
 - hosts: nopc
-  pre_tasks:
-    - import_tasks: tasks/arch_linux/paru.yml
-
+  roles:
+    - role: no_12.dotfiles.paru
+  tasks:
     - name: Ensure AUR packages are present
       include_tasks: tasks/arch_linux/aur_package.yml
       loop:

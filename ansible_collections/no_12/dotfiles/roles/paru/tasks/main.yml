@@ -1,12 +1,12 @@
 ---
 - name: Ensure required packages are present
-  become: yes
-  pacman:
+  become: true
+  community.general.pacman:
     name:
       - base-devel
 
 - name: Check if paru is present
-  command: which paru
+  ansible.builtin.command: which paru
   register: _paru_is_present
   changed_when: _paru_is_present.rc == 1
   failed_when: _paru_is_present.rc >= 2
@@ -14,34 +14,34 @@
 - name: Ensure paru is present
   block:
     - name: Clone paru repo
-      git:
+      ansible.builtin.git:
         repo: https://aur.archlinux.org/paru.git
         dest: /tmp/paru
 
     - name: Install paru
-      command:
+      ansible.builtin.command:
         chdir: /tmp/paru
         cmd: makepkg -Cfis --noconfirm
         creates: /usr/bin/paru
 
     - name: Remove paru repo
-      file:
+      ansible.builtin.file:
         path: /tmp/paru
         state: absent
   when: _paru_is_present.rc == 1
 
 - name: Ensure aur_builder user is present
-  become: yes
-  user:
+  become: true
+  ansible.builtin.user:
     name: aur_builder
-    system: yes
+    system: true
 
 - name: Ensure aur_builder can run pacman with sudo
-  become: yes
-  lineinfile:
+  become: true
+  ansible.builtin.lineinfile:
      path: /etc/sudoers.d/aur_builder-allow-to-sudo-pacman
      state: present
      line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
      regexp: '^aur_builder'
      validate: /usr/sbin/visudo -cf %s
-     create: yes
+     create: true
