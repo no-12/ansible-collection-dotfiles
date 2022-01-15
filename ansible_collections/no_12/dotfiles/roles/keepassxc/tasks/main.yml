@@ -1,0 +1,15 @@
+---
+- name: Ensure firefox Arch package is present
+  become: true
+  community.general.pacman:
+    name: firefox
+    state: present
+  when: is_arch
+
+- name: Ensure firefox MacOS packages is present
+  community.general.homebrew_cask:
+    name: firefox
+    install_options:
+      - "appdir={{ ansible_env.HOME }}/Applications"
+    state: present
+  when: is_macos

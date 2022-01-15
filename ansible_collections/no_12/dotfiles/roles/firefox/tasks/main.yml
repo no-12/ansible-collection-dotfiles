@@ -1,0 +1,15 @@
+---
+- name: Ensure keepassxc Arch package is present
+  become: true
+  community.general.pacman:
+    name: keepassxc
+    state: present
+  when: is_arch
+
+- name: Ensure keepassxc MacOS packages is present
+  community.general.homebrew_cask:
+    name: keepassxc
+    install_options:
+      - "appdir={{ ansible_env.HOME }}/Applications"
+    state: present
+  when: is_macos

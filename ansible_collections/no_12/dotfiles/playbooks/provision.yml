@@ -24,15 +24,6 @@
     - role: no_12.dotfiles.ripgrep
     - role: no_12.dotfiles.git
     - role: no_12.dotfiles.alacritty
+    - role: no_12.dotfiles.firefox
+    - role: no_12.dotfiles.keepassxc
     - role: no_12.dotfiles.vscode
-
-- hosts: macbook
-  tasks:
-    - name: Ensure homebrew cask packages are present
-      community.general.homebrew_cask:
-        name:
-          - firefox
-          - keepassxc
-        install_options:
-          - "appdir={{ ansible_env.HOME }}/Applications"
-        state: present

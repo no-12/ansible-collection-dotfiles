@@ -1,7 +1,7 @@
 ---
-- name: Ensure alacritty Linux package is present
+- name: Ensure alacritty Arch package is present
   become: true
-  ansible.builtin.package:
+  community.general.pacman:
     name: alacritty
     state: present
   when: is_arch
