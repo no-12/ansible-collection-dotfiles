@@ -35,7 +35,7 @@ ga() {
 glg() {
     is_git_repo || return 1
     git lg --color=always "$@" |
-        fzf --exit-0 --tiebreak=index --preview="echo {} | grep -Eo '[a-f0-9]+' | head -1 | xargs -I % git show --color=always %" |
+        fzf --exit-0 --layout=reverse --tiebreak=index --preview="echo {} | grep -Eo '[a-f0-9]+' | head -1 | xargs -I % git show --color=always %" |
         grep -Eo '[a-f0-9]+' |
         head -1 |
         xargs -I % git show --color=always %
