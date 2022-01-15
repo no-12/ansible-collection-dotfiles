@@ -4,8 +4,6 @@
     - role: no_12.dotfiles.paru
     - role: no_12.dotfiles.aur_package
       aur_package_name: direnv
-    - role: no_12.dotfiles.aur_package
-      aur_package_name: nerd-fonts-jetbrains-mono
 
 - hosts: all
   pre_tasks:
@@ -21,6 +19,7 @@
         state: present
   roles:
     - role: no_12.dotfiles.custom_keyboard_layout
+    - role: no_12.dotfiles.nerd_fonts_jetbrains_mono
     - role: no_12.dotfiles.zsh
     - role: no_12.dotfiles.fzf
     - role: no_12.dotfiles.ripgrep
@@ -30,11 +29,6 @@
 
 - hosts: macbook
   tasks:
-    - name: Ensure cask-fonts homebrew repository is present
-      community.general.homebrew_tap:
-        name: homebrew/cask-fonts
-        state: present
-
     - name: Ensure homebrew packages are present
       community.general.homebrew:
         name:
@@ -45,7 +39,6 @@
       community.general.homebrew_cask:
         name:
           - firefox
-          - font-jetbrains-mono-nerd-font
           - keepassxc
         install_options:
           - "appdir={{ ansible_env.HOME }}/Applications"
