@@ -2,8 +2,6 @@
 - hosts: nopc
   roles:
     - role: no_12.dotfiles.paru
-    - role: no_12.dotfiles.aur_package
-      aur_package_name: direnv
 
 - hosts: all
   pre_tasks:
@@ -13,6 +11,7 @@
         name:
           - bat
           - curl
+          - direnv
           - htop
           - shellcheck
           - vim
@@ -29,12 +28,6 @@
 
 - hosts: macbook
   tasks:
-    - name: Ensure homebrew packages are present
-      community.general.homebrew:
-        name:
-          - direnv
-        state: present
-
     - name: Ensure homebrew cask packages are present
       community.general.homebrew_cask:
         name:
