@@ -21,9 +21,12 @@
 
 - name: Ensure config is present
   ansible.builtin.template:
-    src: settings.json.j2
-    dest: "{{ vscode_user_config_file }}"
+    src: "{{ item }}.j2"
+    dest: "{{ vscode_user_config_directory }}/{{ item }}"
     mode: 0600
+  with_items:
+    - keybindings.json
+    - settings.json
 
 - name: List installed extensions
   ansible.builtin.command: "{{ vscode_binary }} --list-extensions"

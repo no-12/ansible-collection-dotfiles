@@ -1,6 +1,5 @@
 vscode_binary: "{{ ansible_env.HOME + '/Applications/Visual\\ Studio\\ Code.app/Contents/Resources/app/bin/code' if is_macos else 'code' }}"
 vscode_user_config_directory: "{{ ansible_env.HOME }}/{{ 'Library/Application Support/Code/User' if is_macos else '.config/Code/User' }}"
-vscode_user_config_file: "{{ vscode_user_config_directory }}/settings.json"
 vscode_common_extensions:
   - christian-kohler.path-intellisense
   - donjayamanne.githistory
