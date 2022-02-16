@@ -1,0 +1,10 @@
+---
+- name: Check if sdkman dir exists
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.sdkman"
+  register: sdk_dir
+
+- name: Ensure sdkman is installed
+  ansible.builtin.shell:
+    cmd: curl -s https://get.sdkman.io | bash
+  when: not sdk_dir.stat.exists

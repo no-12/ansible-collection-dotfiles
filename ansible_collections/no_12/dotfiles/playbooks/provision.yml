@@ -25,6 +25,7 @@
     - role: no_12.dotfiles.fzf
     - role: no_12.dotfiles.ripgrep
     - role: no_12.dotfiles.git
+    - role: no_12.dotfiles.sdkman
     - role: no_12.dotfiles.alacritty
     - role: no_12.dotfiles.firefox
     - role: no_12.dotfiles.keepassxc
