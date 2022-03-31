@@ -6,6 +6,15 @@
       - fzf
     state: present
 
+- name: Ensure key-bindings and completion are present
+  ansible.builtin.shell:
+    cmd: $(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc
+    creates:
+      - /opt/homebrew/opt/fzf/shell/key-bindings.zsh
+      - /opt/homebrew/opt/fzf/shell/completion.zsh
+  changed_when: false
+  when: is_macos
+
 - name: Ensure .fzfrc file is present
   ansible.builtin.copy:
     src: .fzfrc
