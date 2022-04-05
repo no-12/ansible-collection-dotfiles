@@ -1,5 +1,17 @@
 {
   "extends": [
     "config:base"
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        ".*\\.yml$"
+      ],
+      "matchStrings": [
+        ".*_version: (?<currentValue>.*?)  # renovate: depName=(?<depName>.*?)( datasource=(?<datasource>.*?))?\\s",
+        ".*_VERSION: (?<currentValue>.*?)  # renovate: depName=(?<depName>.*?)( datasource=(?<datasource>.*?))?\\s"
+      ],
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
+    }
   ]
 }

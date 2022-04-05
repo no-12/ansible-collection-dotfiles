@@ -17,7 +17,7 @@
   loop:
     - repo: https://github.com/gradle/gradle-completion.git
       name: gradle-completion
-      version: "{{ zsh_gradle_completion_version }}"
+      version: "v{{ zsh_gradle_completion_version }}"
     - repo: https://github.com/romkatv/powerlevel10k.git
       name: powerlevel10k
       version: "{{ zsh_powerlevel10k_version }}"
