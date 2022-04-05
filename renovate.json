@@ -2,6 +2,7 @@
   "extends": [
     "config:base"
   ],
+  "schedule": "before 7am every weekday",
   "regexManagers": [
     {
       "fileMatch": [
