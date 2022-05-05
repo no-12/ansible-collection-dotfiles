@@ -4,6 +4,13 @@
     path: "{{ ansible_env.HOME }}/.sdkman"
   register: sdk_dir
 
+- name: Ensure dependencies are present
+  become: "{{ true if ansible_pkg_mgr != 'homebrew' else false }}"
+  ansible.builtin.package:
+    name:
+      - zip
+    state: present
+
 - name: Ensure sdkman is installed
   ansible.builtin.shell:
     cmd: curl -s https://get.sdkman.io | bash
