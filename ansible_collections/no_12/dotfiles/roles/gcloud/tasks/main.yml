@@ -1,0 +1,32 @@
+---
+- name: Get current installed version
+  ansible.builtin.command:
+    cmd: gcloud info --format='value(basic.version)'
+  changed_when: false
+  failed_when: false
+  register: gcloud_version_command
+
+- name: Ensure gcloud is installed
+  when: gcloud_version_command.rc != 0
+  block:
+    - name: Download and unarchive gcloud
+      ansible.builtin.unarchive:
+        src: "{{ gcloud_archive_base_url }}/{{ gcloud_archive }}"
+        dest: "{{ gcloud_install_directory }}"
+        remote_src: yes
+
+    - name: Run install.sh
+      ansible.builtin.command:
+        cmd: ./install.sh --quiet --usage-reporting false
+        chdir: "{{ gcloud_install_directory }}/google-cloud-sdk"
+
+- name: Update to {{ gcloud_version }}
+  ansible.builtin.command:
+    cmd: "gcloud components update --version={{ gcloud_version }}"
+  when: gcloud_version != gcloud_version_command.stdout
+
+- name: Ensure additional components are installed
+  ansible.builtin.command:
+    cmd: gcloud components install {{ gcloud_additional_components | join(' ') }}
+  register: _gcloud_components_install
+  changed_when: "'Installing components' in _gcloud_components_install.stderr"

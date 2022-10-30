@@ -1,0 +1,7 @@
+---
+gcloud_architecture_mapping:
+  arm64: arm
+  i386: x86
+  x86_64: x86_64
+gcloud_archive: "google-cloud-cli-{{ gcloud_version }}-{{ gcloud_system }}-{{ gcloud_architecture }}.tar.gz"
+gcloud_archive_base_url: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads
