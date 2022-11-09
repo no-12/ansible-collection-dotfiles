@@ -243,6 +243,8 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 hash kubectl &> /dev/null && source <(kubectl completion zsh)
 
+hash op &> /dev/null && source <(op completion zsh)
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
