@@ -1,8 +1,9 @@
 ---
-- ansible.builtin.import_role:
-    name: no_12.dotfiles.aur_package
-  vars:
-    aur_package_name: nerd-fonts-jetbrains-mono
+- name: Ensure font is present
+  become: true
+  community.general.pacman:
+    name: ttf-jetbrains-mono-nerd
+    state: present
   when: is_arch
 
 - block:
