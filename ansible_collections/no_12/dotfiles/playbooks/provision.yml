@@ -11,6 +11,7 @@
           - exa
           - htop
           - shellcheck
+          - unzip
           - vim
         state: present
 
