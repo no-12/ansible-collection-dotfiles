@@ -4,4 +4,4 @@ gcloud_additional_components:
   - gke-gcloud-auth-plugin
 gcloud_install_directory: "{{ ansible_env.HOME }}"
 gcloud_system: "{{ ansible_system | lower }}"
-gcloud_version: 423.0.0  # renovate: depName=google/cloud-sdk datasource=docker
+gcloud_version: 444.0.0  # renovate: depName=google/cloud-sdk datasource=docker
