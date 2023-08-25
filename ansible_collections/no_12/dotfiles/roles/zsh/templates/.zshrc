@@ -220,6 +220,8 @@ alias ln='ln -v'
 alias md='mkdir -pv'
 alias rd='rmdir'
 alias vi='vim'
+alias gbc="git fetch -p; git branch -r | awk '{print \$1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print \$1}' | xargs git branch -d"
+alias gbcf="git fetch -p; git branch -r | awk '{print \$1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print \$1}' | xargs git branch -D"
 
 {% if is_macos %}
 alias ls='ls -G'
