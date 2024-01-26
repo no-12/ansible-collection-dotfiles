@@ -6,4 +6,4 @@ editor_font: JetBrainsMono Nerd Font Mono
 terminal_font: JetBrainsMono Nerd Font Mono
 
 zsh_gradle_completion_version: 1.4.1  # renovate: depName=gradle/gradle-completion
-zsh_powerlevel10k_version: v1.17.0  # renovate: depName=romkatv/powerlevel10k
+zsh_powerlevel10k_version: v1.20.0  # renovate: depName=romkatv/powerlevel10k
