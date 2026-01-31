@@ -5,6 +5,7 @@
     name:
       - git
       - git-delta
+      - git-lfs
     state: present
 
 - name: Fetch existing .gitconfig
