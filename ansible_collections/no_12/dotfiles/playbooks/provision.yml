@@ -7,12 +7,12 @@
         name:
           - bat
           - curl
-          - direnv
           - exa
           - htop
           - shellcheck
           - unzip
           - vim
+          - wget
         state: present
 
     - ansible.builtin.import_role:
