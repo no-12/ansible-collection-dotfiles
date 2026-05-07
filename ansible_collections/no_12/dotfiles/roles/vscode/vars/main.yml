@@ -1,16 +1,19 @@
 vscode_binary: "{{ ansible_env.HOME + '/Applications/Visual\\ Studio\\ Code.app/Contents/Resources/app/bin/code' if is_macos else 'code' }}"
 vscode_user_config_directory: "{{ ansible_env.HOME }}/{{ 'Library/Application Support/Code/User' if is_macos else '.config/Code/User' }}"
 vscode_common_extensions:
+  - bierner.markdown-mermaid
   - christian-kohler.path-intellisense
-  - donjayamanne.githistory
-  - eamodio.gitlens
-  - esbenp.prettier-vscode
+  - golang.Go
   - Gruntfuggly.todo-tree
-  - ms-azuretools.vscode-docker
+  - jetmartin.bats
+  - ms-python.black-formatter
+  - ms-python.isort
   - ms-python.python
-  - ms-python.vscode-pylance
   - redhat.ansible
+  - redhat.vscode-xml
   - redhat.vscode-yaml
+  - ryanluker.vscode-coverage-gutters
+  - samuelcolvin.jinjahtml
   - sleistner.vscode-fileutils
   - streetsidesoftware.code-spell-checker
   - streetsidesoftware.code-spell-checker-german
