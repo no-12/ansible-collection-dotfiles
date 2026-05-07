@@ -6,16 +6,10 @@
     state: present
   when: is_arch
 
-- block:
-    - name: Ensure cask-fonts homebrew repository is present
-      community.general.homebrew_tap:
-        name: homebrew/cask-fonts
-        state: present
-
-    - name: Ensure nerd_fonts_jetbrains_mono package is present
-      community.general.homebrew_cask:
-        name: font-jetbrains-mono-nerd-font
-        install_options:
-          - "appdir={{ ansible_env.HOME }}/Applications"
-        state: present
+- name: Ensure nerd_fonts_jetbrains_mono package is present
+  community.general.homebrew_cask:
+    name: font-jetbrains-mono-nerd-font
+    install_options:
+      - "appdir={{ ansible_env.HOME }}/Applications"
+    state: present
   when: is_macos
