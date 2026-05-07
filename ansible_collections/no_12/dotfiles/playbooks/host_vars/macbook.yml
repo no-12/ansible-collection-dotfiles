@@ -1,3 +1,4 @@
+is_linux: false
 is_macos: true
 alacritty_font_size: 18
 vscode_editor_font_size: 14

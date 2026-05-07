@@ -1,33 +1,34 @@
 ---
 - hosts: all
-  pre_tasks:
-    - name: Ensure common packages are present
-      become: "{{ true if ansible_pkg_mgr != 'homebrew' else false }}"
-      package:
-        name:
-          - bat
-          - curl
-          - exa
-          - htop
-          - shellcheck
-          - unzip
-          - vim
-          - wget
-        state: present
+  # pre_tasks:
+  #   - name: Ensure common packages are present
+  #     become: "{{ true if ansible_pkg_mgr != 'homebrew' else false }}"
+  #     package:
+  #       name:
+  #         - bat
+  #         - curl
+  #         - exa
+  #         - htop
+  #         - shellcheck
+  #         - unzip
+  #         - vim
+  #         - wget
+  #       state: present
 
-    - ansible.builtin.import_role:
-        name: no_12.dotfiles.paru
-      when: is_arch
+  #   - ansible.builtin.import_role:
+  #       name: no_12.dotfiles.paru
+  #     when: is_arch
 
   roles:
-    - role: no_12.dotfiles.custom_keyboard_layout
-    - role: no_12.dotfiles.nerd_fonts_jetbrains_mono
-    - role: no_12.dotfiles.zsh
-    - role: no_12.dotfiles.fzf
-    - role: no_12.dotfiles.ripgrep
-    - role: no_12.dotfiles.git
-    - role: no_12.dotfiles.sdkman
-    - role: no_12.dotfiles.alacritty
-    - role: no_12.dotfiles.firefox
-    - role: no_12.dotfiles.keepassxc
-    - role: no_12.dotfiles.vscode
+    # - role: no_12.dotfiles.custom_keyboard_layout
+    # - role: no_12.dotfiles.nerd_fonts_jetbrains_mono
+    # - role: no_12.dotfiles.zsh
+    # - role: no_12.dotfiles.fzf
+    # - role: no_12.dotfiles.ripgrep
+    # - role: no_12.dotfiles.git
+    # - role: no_12.dotfiles.sdkman
+    # - role: no_12.dotfiles.alacritty
+    - role: no_12.dotfiles.tmux
+    # - role: no_12.dotfiles.firefox
+    # - role: no_12.dotfiles.keepassxc
+    # - role: no_12.dotfiles.vscode
