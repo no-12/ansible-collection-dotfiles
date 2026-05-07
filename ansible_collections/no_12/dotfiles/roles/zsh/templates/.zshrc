@@ -37,6 +37,8 @@ NC='\e[0m'
 
 {% if is_macos %}
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+export PATH="$HOME/.local/bin:$PATH"
 {% endif %}
 
 
