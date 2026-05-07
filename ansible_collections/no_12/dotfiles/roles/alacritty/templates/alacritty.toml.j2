@@ -1,0 +1,63 @@
+[colors.bright]
+black = "{{ alacritty_colors.bright_black }}"
+blue = "{{ alacritty_colors.bright_blue }}"
+cyan = "{{ alacritty_colors.bright_cyan }}"
+green = "{{ alacritty_colors.bright_green }}"
+magenta = "{{ alacritty_colors.bright_magenta }}"
+red = "{{ alacritty_colors.bright_red }}"
+white = "{{ alacritty_colors.bright_white }}"
+yellow = "{{ alacritty_colors.bright_yellow }}"
+
+[colors.normal]
+black = "{{ alacritty_colors.black }}"
+blue = "{{ alacritty_colors.blue }}"
+cyan = "{{ alacritty_colors.cyan }}"
+green = "{{ alacritty_colors.green }}"
+magenta = "{{ alacritty_colors.magenta }}"
+red = "{{ alacritty_colors.red }}"
+white = "{{ alacritty_colors.white }}"
+yellow = "{{ alacritty_colors.yellow }}"
+
+[colors.primary]
+background = "{{ alacritty_colors.background }}"
+foreground = "{{ alacritty_colors.foreground }}"
+
+[colors.search.focused_match]
+background = "{{ alacritty_colors.yellow }}"
+foreground = "{{ alacritty_colors.background }}"
+
+[colors.search.matches]
+background = "{{ alacritty_colors.red }}"
+foreground = "{{ alacritty_colors.background }}"
+
+[env]
+TERM_PROGRAM = "alacritty"
+
+[font]
+size = {{ alacritty_font_size }}
+
+[font.normal]
+family = "{{ terminal_font }}"
+style = "Regular"
+
+[font.bold]
+family = "{{ terminal_font }}"
+style = "Bold"
+
+[font.italic]
+family = "{{ terminal_font }}"
+style = "Italic"
+
+[font.bold_italic]
+family = "{{ terminal_font }}"
+style = "Bold Italic"
+
+[[keyboard.bindings]]
+action = "CreateNewWindow"
+key = "N"
+mods = "Command"
+
+[window]
+startup_mode = "Maximized"
+
+[keyboard]

@@ -26,6 +26,6 @@
 
 - name: Ensure config is present
   ansible.builtin.template:
-    src: alacritty.yml.j2
-    dest: "{{ ansible_env.HOME }}/.alacritty.yml"
+    src: alacritty.toml.j2
+    dest: "{{ ansible_env.HOME }}/.alacritty.toml"
     mode: 0644
