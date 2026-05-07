@@ -13,5 +13,5 @@
 
 - name: Ensure sdkman is installed
   ansible.builtin.shell:
-    cmd: curl -s https://get.sdkman.io | bash
+    cmd: curl -s https://get.sdkman.io | zsh
   when: not sdk_dir.stat.exists
