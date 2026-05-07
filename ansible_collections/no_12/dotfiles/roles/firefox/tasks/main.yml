@@ -1,14 +1,14 @@
 ---
-- name: Ensure keepassxc Arch package is present
+- name: Ensure firefox Arch package is present
   become: true
   community.general.pacman:
-    name: keepassxc
+    name: firefox
     state: present
   when: is_arch
 
-- name: Ensure keepassxc MacOS packages is present
+- name: Ensure firefox MacOS packages is present
   community.general.homebrew_cask:
-    name: keepassxc
+    name: firefox
     install_options:
       - "appdir={{ ansible_env.HOME }}/Applications"
     state: present

@@ -28,6 +28,6 @@
     # - role: no_12.dotfiles.sdkman
     - role: no_12.dotfiles.alacritty
     - role: no_12.dotfiles.tmux
-    # - role: no_12.dotfiles.firefox
-    # - role: no_12.dotfiles.keepassxc
+    - role: no_12.dotfiles.firefox
+    - role: no_12.dotfiles.keepassxc
     - role: no_12.dotfiles.vscode
