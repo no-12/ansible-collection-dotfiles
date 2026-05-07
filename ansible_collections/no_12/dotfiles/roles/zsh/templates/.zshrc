@@ -1,12 +1,5 @@
 [[ -z $TMUX ]] && [[ ! $TERM =~ screen ]] && [[ ! $TERM_PROGRAM =~ vscode ]] && exec tmux new -A -s main
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 ################################
 # Environment variables
 ################################
@@ -233,22 +226,66 @@ alias ls='ls --color=auto'
 {% endif %}
 
 ####################################
+# Lazy loaders
+####################################
+
+# Schedule a command to run after the first prompt is drawn, without blocking
+# it. Implemented via a self-feeding pipe whose zle -F handler fires once the
+# event loop starts (i.e. after the prompt has been rendered).
+typeset -ga _no12_deferred=()
+_no12_defer() {
+  _no12_deferred+=("$*")
+  if [[ -z ${_no12_defer_fd-} ]]; then
+    exec {_no12_defer_fd}< <(:)
+    zle -F $_no12_defer_fd _no12_run_deferred
+  fi
+}
+_no12_run_deferred() {
+  zle -F $1
+  exec {_no12_defer_fd}<&-
+  unset _no12_defer_fd
+  local cmd
+  for cmd in "${_no12_deferred[@]}"; do
+    eval "$cmd" 2>/dev/null
+  done
+  _no12_deferred=()
+}
+
+# Source `<bin> completion zsh` from a disk cache. Generating the script can
+# be very slow (e.g. Docker Desktop's kubectl takes ~5s); caching keeps shell
+# startup snappy, and stale caches are refreshed asynchronously after the
+# first prompt rather than blocking it.
+_no12_completion_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completions"
+_no12_load_completion() {
+  local bin=$1
+  hash $bin &> /dev/null || return
+  local cache=$_no12_completion_cache_dir/${bin}.zsh
+  local bin_path=${commands[$bin]}
+  if [[ -s $cache ]]; then
+    source $cache
+    [[ $cache -ot $bin_path ]] && _no12_defer \
+      "mkdir -p $_no12_completion_cache_dir && $bin completion zsh > $cache.tmp && mv $cache.tmp $cache"
+  else
+    _no12_defer \
+      "mkdir -p $_no12_completion_cache_dir && $bin completion zsh > $cache.tmp && mv $cache.tmp $cache && source $cache"
+  fi
+}
+
+####################################
 # Source and configure other scripts
 ####################################
 
-source "{{ zsh_extensions_dir }}/powerlevel10k/powerlevel10k.zsh-theme"
-[[ -s "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
+source "$HOME/.zsh_prompt.zsh"
 
 [[ -s "$HOME/.fzfrc" ]] && source "$HOME/.fzfrc"
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
-[[ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]] && source "$HOME/google-cloud-sdk/path.zsh.inc"
-[[ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]] && source "$HOME/google-cloud-sdk/completion.zsh.inc"
+[[ -f "/opt/homebrew/share/google-cloud-sdk/path.zsh.inc" ]] && source "/opt/homebrew/share/google-cloud-sdk/path.zsh.inc"
+[[ -f "/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc" ]] && source "/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc"
 
-hash kubectl &> /dev/null && source <(kubectl completion zsh)
-
-hash op &> /dev/null && source <(op completion zsh)
+_no12_load_completion kubectl
+_no12_load_completion op
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
